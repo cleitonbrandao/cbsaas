@@ -1,0 +1,23 @@
+{
+  "name": "@cbsaas/api",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "tsx watch src/index.ts"
+  },
+  "dependencies": {
+    "@cbsaas/auth": "workspace:*"
+  },
+  "devDependencies": {
+    "@cbsaas/eslint-config": "workspace:*",
+    "@cbsaas/prettier": "workspace:*",
+    "@cbsaas/tsconfig": "workspace:*",
+    "@types/node": "^20.14.12",
+    "tsx": "^4.16.2"
+  },
+  "prettier": "@cbsaas/prettier",
+  "eslintConfig": {
+    "extends": [
+      "@cbsaas/eslint-config/node"
+    ]
+  }
+}
