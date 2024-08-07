@@ -9,29 +9,29 @@ async function seed() {
     await prisma.user.deleteMany()
 
     const passwordHash = await hash('123456789', 1)
-
-    const [user, anotherUser, anotherUser2] = await prisma.user.createMany({
-        data: 
-        [
-            {
+    const user = await prisma.user.create({
+        data: {
                 name: 'Cleiton Brandão',
                 email: 'cbs3dmax@gmail.com',
                 avatarUrl: 'https://github.com/cleitonbrandao.png',
                 passwordHash,
-            },
-            {
+            }
+    })
+    const anotherUser = await prisma.user.create({
+        data: {
                 name: faker.person.fullName(),
                 email: faker.internet.email(),
                 avatarUrl: faker.image.avatarGitHub(),
                 passwordHash,
-            },
-            {
+            }
+    })
+    const anotherUser2 = await prisma.user.create({
+        data: {
                 name: faker.person.fullName(),
                 email: faker.internet.email(),
                 avatarUrl: faker.image.avatarGitHub(),
                 passwordHash,
-            },
-        ]
+            }
     })
 
     await prisma.organization.create({
@@ -41,7 +41,7 @@ async function seed() {
             slug: 'acme-admin',
             avatarUrl: faker.image.avatarGitHub(),
             shouldAttatchUserByDomain: true,
-            owner: user.id,
+            ownerId: user.id,
             projects: {
                 createMany: {
                     data: [
@@ -85,7 +85,7 @@ async function seed() {
             name: 'Acme Inc (Member)',
             slug: 'acme-member',
             avatarUrl: faker.image.avatarGitHub(),
-            owner: user.id,
+            ownerId: user.id,
             projects: {
                 createMany: {
                     data: [
@@ -109,6 +109,50 @@ async function seed() {
                         {
                             userId: user.id,
                             role: 'MEMBER'
+                        },
+                        {
+                            userId: anotherUser.id,
+                            role: 'ADMIN'
+                        },
+                        {
+                            userId: anotherUser2.id,
+                            role: 'MEMBER'
+                        }
+                    ]
+                }
+            }
+        }
+    })
+
+    await prisma.organization.create({
+        data: {
+            name: 'Acme Inc (Billing)',
+            slug: 'acme-billing',
+            avatarUrl: faker.image.avatarGitHub(),
+            ownerId: user.id,
+            projects: {
+                createMany: {
+                    data: [
+                        {
+                            name: faker.lorem.words(5),
+                            slug: faker.lorem.words(5),
+                            description: faker.lorem.paragraph(),
+                            avatarUrl: faker.image.avatarGitHub(),
+                            ownerId: faker.helpers.arrayElement([
+                                user.id,
+                                anotherUser.id,
+                                anotherUser2.id
+                            ])
+                        }
+                    ]
+                }
+            },
+            members: {
+                createMany: {
+                    data: [
+                        {
+                            userId: user.id,
+                            role: 'BILLING'
                         },
                         {
                             userId: anotherUser.id,
