@@ -8,20 +8,20 @@ datasource db {
 }
 
 model User {
-  id String @id @default(uuid())
-  name String?
-  email String @unique
-  passwordHash String? @map("password_hash")
-  avatarUrl String? @map("avatar_url")
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  id           String   @id @default(uuid())
+  name         String?
+  email        String   @unique
+  passwordHash String?  @map("password_hash")
+  avatarUrl    String?  @map("avatar_url")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
 
-  tokens Token[]
-  accounts Account[]
-  invites Invite[]
-  member_on Member[]
+  tokens            Token[]
+  accounts          Account[]
+  invites           Invite[]
+  member_on         Member[]
   owns_organization Organization[]
-  owns_projects Project[]
+  owns_projects     Project[]
 
   @@map("users")
 }
@@ -31,11 +31,11 @@ enum TokenType {
 }
 
 model Token {
-  id String @id @default(uuid())
-  type TokenType
-  createdAt DateTime @default(now()) @map("created_at")
+  id        String    @id @default(uuid())
+  type      TokenType
+  createdAt DateTime  @default(now()) @map("created_at")
 
-  user User @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id])
   userId String @map("user_id")
 
   @@map("tokens")
@@ -46,11 +46,11 @@ enum AccountProvider {
 }
 
 model Account {
-  id String @id @default(uuid())
-  provider AccountProvider
-  providerAccountId String @unique @map("provider_account_id")
+  id                String          @id @default(uuid())
+  provider          AccountProvider
+  providerAccountId String          @unique @map("provider_account_id")
 
-  user User @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id])
   userId String @map("user_id")
 
   @@map("accounts")
@@ -63,16 +63,16 @@ enum Role {
 }
 
 model Invite {
-  id String @id @default(uuid())
-  email String
-  role Role
+  id        String   @id @default(uuid())
+  email     String
+  role      Role
   createdAt DateTime @default(now()) @map("created_at")
 
-  author User? @relation(fields: [userId], references: [id])
+  author User?   @relation(fields: [userId], references: [id])
   userId String? @map("user_id")
 
-  organization Organization @relation(fields: [organizationId], references: [id])
-  organizationId String @map("organization_id")
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  organizationId String       @map("organization_id")
 
   @@unique([email, organizationId])
   @@index([email])
@@ -80,13 +80,13 @@ model Invite {
 }
 
 model Member {
-  id String @id @default(uuid())
-  role Role @default(MEMBER)
+  id   String @id @default(uuid())
+  role Role   @default(MEMBER)
 
-  organization Organization @relation(fields: [organizationId], references: [id])
-  organizationId String @map("organization_id")
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  organizationId String       @map("organization_id")
 
-  user User @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id])
   userId String @map("user_id")
 
   @@unique([organizationId, userId])
@@ -94,38 +94,38 @@ model Member {
 }
 
 model Organization {
-  id String @id @default(uuid())
-  name String
-  slug String @unique
-  domain String? @unique
-  shouldAttatchUserByDomain Boolean @default(false) @map("sould_attatch_user_by_domain")
-  avatarUrl String? @map("avatar_url")
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  id                        String   @id @default(uuid())
+  name                      String
+  slug                      String   @unique
+  domain                    String?  @unique
+  shouldAttatchUserByDomain Boolean  @default(false) @map("sould_attatch_user_by_domain")
+  avatarUrl                 String?  @map("avatar_url")
+  createdAt                 DateTime @default(now()) @map("created_at")
+  updatedAt                 DateTime @updatedAt @map("updated_at")
 
-  owner User @relation(fields: [ownerId], references: [id])
+  owner   User   @relation(fields: [ownerId], references: [id])
   ownerId String @map("ownder_id")
 
-  invites Invite[]
-  members Member[]
+  invites  Invite[]
+  members  Member[]
   projects Project[]
 
   @@map("organizations")
 }
 
 model Project {
-  id String @id @default(uuid())
-  name String
+  id          String   @id @default(uuid())
+  name        String
   description String?
-  slug String @unique
-  avatarUrl String? @map("avatar_url")
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  slug        String   @unique
+  avatarUrl   String?  @map("avatar_url")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
 
-  organization Organization @relation(fields: [organizationId], references: [id])
-  organizationId  String @map("organization_id")
-  
-  owner User @relation(fields: [ownerId], references: [id])
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  organizationId String       @map("organization_id")
+
+  owner   User   @relation(fields: [ownerId], references: [id])
   ownerId String @map("owner_id")
 
   @@map("projects")
