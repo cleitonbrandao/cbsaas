@@ -2,10 +2,14 @@
   "name": "@cbsaas/api",
   "version": "1.0.0",
   "scripts": {
-    "dev": "tsx watch src/http/server.ts"
+    "dev": "pnpm env:load tsx watch src/http/server.ts",
+    "db:migrate": "pnpm env:load prisma migrate dev",
+    "db:studio": "pnpm env:load prisma studio",
+    "env:load": "dotenv -e ../../.env --"
   },
   "dependencies": {
     "@cbsaas/auth": "workspace:*",
+    "@cbsaas/env": "workspace:*",
     "@fastify/cors": "^9.0.1",
     "@fastify/jwt": "^8.0.1",
     "@fastify/swagger": "^8.15.0",
@@ -24,6 +28,7 @@
     "@faker-js/faker": "^8.4.1",
     "@types/bcryptjs": "^2.4.6",
     "@types/node": "^20.14.12",
+    "dotenv-cli": "^7.4.2",
     "prisma": "^5.17.0",
     "tsx": "^4.16.2"
   },

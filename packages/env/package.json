@@ -1,0 +1,23 @@
+{
+    "name": "@cbsaas/env",
+    "version": "0.0.0",
+    "private": true,
+    "main": "index.ts",
+    "types": "index.ts",
+    "devDependencies": {
+        "@cbsaas/eslint-config": "workspace:*",
+        "@cbsaas/prettier": "workspace:*",
+        "@cbsaas/tsconfig": "workspace:*",
+        "@types/node": "^20.14.12"
+    },
+    "eslintConfig": {
+        "extends": [
+            "@cbsaas/eslint-config/libray"
+        ]
+    },
+    "prettier": "@cbsaas/prettier",
+    "dependencies": {
+        "@t3-oss/env-nextjs": "^0.11.0",
+        "zod": "3.23.8"
+    }
+}
