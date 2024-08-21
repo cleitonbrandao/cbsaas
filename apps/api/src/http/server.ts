@@ -17,6 +17,9 @@ import { requestPasswordRecover } from './routes/auth/request-password-recover';
 import { resetPassword } from './routes/auth/reset-password';
 import { env } from '@cbsaas/env';
 import { createOrganization } from './routes/organization/create-organization';
+import { getMemebership } from './routes/organization/get-membership';
+import { getOrganization } from './routes/organization/get-organization';
+import { getOrganizations } from './routes/organization/get-organizations';
 
 const app = fastify().withTypeProvider<ZodTypeProvider>();
 
@@ -67,6 +70,9 @@ app.register(requestPasswordRecover);
 app.register(resetPassword);
 
 app.register(createOrganization);
+app.register(getMemebership);
+app.register(getOrganization);
+app.register(getOrganizations);
 
 app.listen({ port: env.SERVER_PORT }).then(() => {
   console.log('HTTP server running!');
