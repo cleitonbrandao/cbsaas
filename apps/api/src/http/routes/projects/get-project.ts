@@ -17,25 +17,25 @@ export async function getProject(app: FastifyInstance) {
                 schema: {
                     tags: ['projects'],
                     summary: 'Get a project details',
-                    security: [{ barearAuth: [] }],
+                    security: [{ bearerAuth: [] }],
                     params: z.object({
                         orgSlug: z.string(),
-                        projectSlug: z.string().uuid()
+                        projectSlug: z.string()
                     }),
                     response: {
                         200: z.object({
                             project: z.object({
                                 id: z.string().uuid(),
                                 name: z.string(),
-                                description: z.string(),
                                 slug: z.string(),
+                                description: z.string().nullable(),
                                 avatarUrl: z.string().nullable(),
-                                organizationId: z.string().uuid().nullable(),
-                                ownerId: z.string().nullable(),
+                                ownerId: z.string().uuid(),
+                                organizationId: z.string().uuid(),
                                 owner: z.object({
                                     id: z.string().uuid(),
                                     name: z.string().nullable(),
-                                    avatarUrl: z.string().nullable()
+                                    avatarUrl: z.string().nullable(),
                                 })
                             })
                         })
@@ -47,7 +47,13 @@ export async function getProject(app: FastifyInstance) {
                 const userId = await request.getCurrentUserId()
                 const { organization, membership } = await request.getUserMembership(orgSlug)
 
+
                 const { cannot } = getUserPermissions(userId, membership.role)
+
+
+                if(cannot('get', 'Project')) {
+                    throw new UnauthoraziedError(`You're not allowed see this project.`)
+                }
 
                 const project = await prisma.project.findUnique({
                     select: {
@@ -55,8 +61,8 @@ export async function getProject(app: FastifyInstance) {
                         name: true,
                         description: true,
                         slug: true,
-                        ownerId: true,
                         avatarUrl: true,
+                        ownerId: true,
                         organizationId: true,
                         owner: {
                             select: {
@@ -76,12 +82,6 @@ export async function getProject(app: FastifyInstance) {
                     throw new BadRequestError('Porject not found')
                 }
 
-                const authProject = projectSchema.parse(project)
-
-                if(cannot('get', authProject)) {
-                    throw new UnauthoraziedError(`You're not allowed see this project.`)
-                }
-
-                return reply.status(200).send({ project })
+                return reply.send({ project })
             })    
 }
