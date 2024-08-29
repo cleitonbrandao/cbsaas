@@ -5,53 +5,44 @@ import { z } from 'zod';
 import { getUserPermissions } from "@/utils/get-user-permissions";
 import { UnauthoraziedError } from "../_erros/unauthorized-error";
 import { prisma } from "@/ilb/prisma";
-import { roleSchema } from "@cbsaas/auth";
 
-export async function updateMember(app: FastifyInstance) {
+export async function removeMember(app: FastifyInstance) {
     app.withTypeProvider<ZodTypeProvider>()
     .register(auth)
-    .put(
+    .delete(
         '/organizations/:slug/members/:memberId',
         {
             schema: {
                 tags: ['members'],
-                summary: 'Update a member',
+                summary: 'Remove a member from the organization',
                 security: [{ bearerAuth: [] }],
-                body: z.object({
-                    role: roleSchema
-                }),
                 params: z.object({
                     slug: z.string(),
                     memberId: z.string().uuid()
                 }),
                 response: {
-                    204: z.null(),
+                    204: z.null()
                 }
             }
         },
         async (request, reply) => {
             const { slug, memberId } = request.params
             const userId = await request.getCurrentUserId()
-            const { organization, membership } = await request.getUserMembership(slug)
-            
+            const { organization, membership} = await request.getUserMembership(slug)
+
             const { cannot } = getUserPermissions(userId, membership.role)
 
-            if(cannot('update', 'User')){
-                throw new UnauthoraziedError(`You're not allowed update this member.`)
+            if(cannot('delete', 'User')) {
+                throw new UnauthoraziedError(`You're not allowed to remove this member from the organization.`)
             }
 
-            const { role } = request.body
-
-            await prisma.member.update({
+            await prisma.member.delete({
                 where: {
                     id: memberId,
                     organizationId: organization.id
-                },
-                data:{
-                    role
                 }
             })
-            
+
             return reply.status(204).send()
         }
     )
