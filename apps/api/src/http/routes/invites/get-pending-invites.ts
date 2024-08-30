@@ -4,6 +4,7 @@ import { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
 import { z } from 'zod';
 import { BadRequestError } from "../_erros/bad-request-error";
+import { roleSchema } from "@cbsaas/auth";
 
 export async function getPendingInvites(app: FastifyInstance) {
     app.withTypeProvider<ZodTypeProvider>()
@@ -17,9 +18,22 @@ export async function getPendingInvites(app: FastifyInstance) {
                 security: [{ bearerAuth: [] }],
                 response: {
                     200: z.object({
-                        invites: z.object({
-                            
-                        })
+                        invites: z.array(
+                            z.object({
+                                id: z.string().uuid(),
+                                email: z.string().email(),
+                                role: roleSchema,
+                                createdAt: z.date(),
+                                author: z.object({
+                                    id: z.string().uuid(),
+                                    name: z.string().nullable(),
+                                    avatarUrl: z.string().url().nullable()
+                                }),
+                                organization: z.object({
+                                    name: z.string()
+                                })
+                            })
+                        )
                     })
                 }
             }
