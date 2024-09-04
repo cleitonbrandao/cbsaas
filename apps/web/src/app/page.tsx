@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button'
-export default function Home() {
-  return (
-    <Button>Sing in</Button>
-  );
+import { GetProfile } from 'http/get-profile';
+export default async function Home() {
+  const { user } = await GetProfile()
+  return <pre>{ JSON.stringify(user, null, 2)}</pre>
 }
