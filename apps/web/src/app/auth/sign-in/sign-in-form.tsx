@@ -6,48 +6,22 @@ import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
 import  Link  from "next/link"
 import Image from "next/image"
-
+import { useRouter } from "next/navigation"
 import googleIconSvg from '@/assets/google-icon.svg'
 
 import { signInWithEmailAndPassword } from "./action"
-import { FormEvent, useActionState, useState, useTransition } from "react"
 import { Loader2 } from "lucide-react"
 import { AlertTriangle, } from "lucide-react"
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert"
-import { string } from "zod"
+import { useFormState } from "hooks/use-form-state"
 
 export default function SignInForm() {
-    // const [{ success, message, errors}, formAction, isPending] = useActionState(
-    //     signInWithEmailAndPassword, 
-    //     { success: false, message: null, errors: null}
-    // )
-
-    const [ isPending, startTransition ]  = useTransition()
-
-    const [ { success, message, errors}, setFormState ] = useState<{
-        success: boolean
-        message: string | null
-        errors: Record<string, string[]> | null
-    }>({
-        success: false,
-        message: null,
-        errors: null,
-    })
-
-    async function handleSignIn(event: FormEvent<HTMLFormElement>) {
-        event.preventDefault()
-
-        const form = event.currentTarget
-        const data = new FormData(form)
-        startTransition(async () => {
-            const state = await signInWithEmailAndPassword(data)
-
-            setFormState(state)
-        })
-    }
-
+    const router = useRouter()
+     const [{success, message, errors}, handleSubmit, isPending] = useFormState(signInWithEmailAndPassword, () => {
+        router.push('/')
+     })
     return(
-    <form onSubmit={handleSignIn}  className="space-y-4">
+    <form onSubmit={handleSubmit}  className="space-y-4">
         { success === false && message && (
             <Alert variant="destructive">
                 <AlertTriangle className="size-4"/>
