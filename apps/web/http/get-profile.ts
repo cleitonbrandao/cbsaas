@@ -2,10 +2,10 @@ import { api } from './api-client'
 
 interface GetProfileReponse {
     user: {
-        id:string
         name: string | null
-        email: string
+        id: string
         avatarUrl: string | null
+        email: string
     }
 }
 
