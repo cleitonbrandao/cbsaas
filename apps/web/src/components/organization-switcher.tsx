@@ -6,10 +6,9 @@ import { DropdownMenu,
     DropdownMenuItem,
     DropdownMenuSeparator
  } from "./ui/dropdown-menu";
-import { ChevronDown, CirclePlusIcon } from 'lucide-react';
+import { ChevronDown, CirclePlusIcon, Link } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { GetOrganizations } from "http/get-organizations";
-
 export async function OrganizationSwitcher() {
     const { organizations } = await GetOrganizations()
     return (
@@ -26,11 +25,13 @@ export async function OrganizationSwitcher() {
                     {organizations.map(organization => {
                         return (
                             <DropdownMenuItem key={organization.id}>
-                            <Avatar className="mr-2 size-4">
-                                {organization.avatarUrl && <AvatarImage src={organization.avatarUrl}/>}
-                                <AvatarFallback />
-                            </Avatar>
-                            <span className="line-clamp-1">{organization.name}</span>
+                                <a href={`/org/${organization.slug}`}>
+                                    <Avatar className="mr-2 size-4">
+                                        {organization.avatarUrl && <AvatarImage src={organization.avatarUrl}/>}
+                                        <AvatarFallback />
+                                    </Avatar>
+                                    <span className="line-clamp-1">{organization.name}</span>
+                                </a>
                         </DropdownMenuItem>
                         )
                     })}
