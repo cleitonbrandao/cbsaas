@@ -3,8 +3,10 @@ import { redirect } from "next/navigation";
 import { Header } from "@/components/headers";
 
 export default function AppLayout({
+    sheet,
     children,
 }: Readonly<{
+    sheet: React.ReactNode
     children: React.ReactNode
 }>) {
     
@@ -13,9 +15,6 @@ export default function AppLayout({
   }
 
   return(
-    <div className="py-4 space-y-4">
-      <Header />
-      <main className="mx-auto w-full max-w-[1200px]">{children}</main>
-    </div>
+    <>{children}{sheet}</>
   )
 }
