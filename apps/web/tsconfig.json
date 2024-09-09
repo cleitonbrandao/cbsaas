@@ -6,10 +6,6 @@
       "@/*": ["./src/*"]
     }
   },
-<<<<<<< Updated upstream
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/auth/sign-up/action.sts", "src/components/theme/theme-switcher.tss"],
-=======
   "include": ["src/**/*", "next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/auth/sign-up/action.sts"],
->>>>>>> Stashed changes
   "exclude": ["node_modules"]
 }
