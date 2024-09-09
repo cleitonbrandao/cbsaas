@@ -1,4 +1,8 @@
+<<<<<<< Updated upstream
 import { Header } from "@/components/headers";
+=======
+import { Header } from '@/components/headers'
+>>>>>>> Stashed changes
 
 export default async function Home() {
   return (

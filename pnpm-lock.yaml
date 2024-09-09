@@ -81,6 +81,7 @@ importers:
 
   apps/web:
     dependencies:
+<<<<<<< Updated upstream
       '@cbsaas/auth':
         specifier: workspace:*
         version: link:../../packages/auth
@@ -93,6 +94,11 @@ importers:
       '@radix-ui/react-checkbox':
         specifier: ^1.1.1
         version: 1.1.1(@types/react-dom@18.3.0)(@types/react@18.3.5)(react-dom@19.0.0-rc-f994737d14-20240522(react@19.0.0-rc-f994737d14-20240522))(react@19.0.0-rc-f994737d14-20240522)
+=======
+      '@radix-ui/react-avatar':
+        specifier: ^1.1.0
+        version: 1.1.0(@types/react-dom@18.3.0)(@types/react@18.3.5)(react-dom@19.0.0-rc-f994737d14-20240522(react@19.0.0-rc-f994737d14-20240522))(react@19.0.0-rc-f994737d14-20240522)
+>>>>>>> Stashed changes
       '@radix-ui/react-dropdown-menu':
         specifier: ^2.1.1
         version: 2.1.1(@types/react-dom@18.3.0)(@types/react@18.3.5)(react-dom@19.0.0-rc-f994737d14-20240522(react@19.0.0-rc-f994737d14-20240522))(react@19.0.0-rc-f994737d14-20240522)
@@ -732,6 +738,7 @@ packages:
       '@types/react-dom':
         optional: true
 
+<<<<<<< Updated upstream
   '@radix-ui/react-checkbox@1.1.1':
     resolution: {integrity: sha512-0i/EKJ222Afa1FE0C6pNJxDq1itzcl3HChE9DwskA4th4KRse8ojx8a1nVcOjwJdbpDLcz7uol77yYnQNMHdKw==}
     peerDependencies:
@@ -745,6 +752,8 @@ packages:
       '@types/react-dom':
         optional: true
 
+=======
+>>>>>>> Stashed changes
   '@radix-ui/react-collection@1.1.0':
     resolution: {integrity: sha512-GZsZslMJEyo1VKm5L1ZJY8tGDxZNPAoUeQUIbKeJfoi7Q4kmig5AsgLMYYuyYbfjd8fBmFORAIwYAkXMnXZgZw==}
     peerDependencies:
@@ -991,6 +1000,7 @@ packages:
       '@types/react':
         optional: true
 
+<<<<<<< Updated upstream
   '@radix-ui/react-use-previous@1.1.0':
     resolution: {integrity: sha512-Z/e78qg2YFnnXcW88A4JmTtm4ADckLno6F7OXotmkQfeuCVaKuYzqAATPhVzl3delXE7CxIV8shofPn3jPc5Og==}
     peerDependencies:
@@ -1000,6 +1010,8 @@ packages:
       '@types/react':
         optional: true
 
+=======
+>>>>>>> Stashed changes
   '@radix-ui/react-use-rect@1.1.0':
     resolution: {integrity: sha512-0Fmkebhr6PiseyZlYAOtLS+nb7jLmpqTrJyv61Pe68MKYW6OWdRE2kI70TaYY27u7H0lajqM3hSMMLFq18Z7nQ==}
     peerDependencies:
@@ -3402,6 +3414,7 @@ snapshots:
       '@types/react': 18.3.5
       '@types/react-dom': 18.3.0
 
+<<<<<<< Updated upstream
   '@radix-ui/react-checkbox@1.1.1(@types/react-dom@18.3.0)(@types/react@18.3.5)(react-dom@19.0.0-rc-f994737d14-20240522(react@19.0.0-rc-f994737d14-20240522))(react@19.0.0-rc-f994737d14-20240522)':
     dependencies:
       '@radix-ui/primitive': 1.1.0
@@ -3418,6 +3431,8 @@ snapshots:
       '@types/react': 18.3.5
       '@types/react-dom': 18.3.0
 
+=======
+>>>>>>> Stashed changes
   '@radix-ui/react-collection@1.1.0(@types/react-dom@18.3.0)(@types/react@18.3.5)(react-dom@19.0.0-rc-f994737d14-20240522(react@19.0.0-rc-f994737d14-20240522))(react@19.0.0-rc-f994737d14-20240522)':
     dependencies:
       '@radix-ui/react-compose-refs': 1.1.0(@types/react@18.3.5)(react@19.0.0-rc-f994737d14-20240522)
@@ -3641,12 +3656,15 @@ snapshots:
     optionalDependencies:
       '@types/react': 18.3.5
 
+<<<<<<< Updated upstream
   '@radix-ui/react-use-previous@1.1.0(@types/react@18.3.5)(react@19.0.0-rc-f994737d14-20240522)':
     dependencies:
       react: 19.0.0-rc-f994737d14-20240522
     optionalDependencies:
       '@types/react': 18.3.5
 
+=======
+>>>>>>> Stashed changes
   '@radix-ui/react-use-rect@1.1.0(@types/react@18.3.5)(react@19.0.0-rc-f994737d14-20240522)':
     dependencies:
       '@radix-ui/rect': 1.1.0

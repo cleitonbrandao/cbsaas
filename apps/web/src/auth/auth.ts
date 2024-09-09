@@ -47,7 +47,6 @@ export async function auth() {
 
     try{
         const { user } = await GetProfile()
-        console.log(user)
         return user
     } catch{}
 
