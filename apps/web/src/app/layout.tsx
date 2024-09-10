@@ -1,5 +1,7 @@
+import { QueryClientProvider } from "@tanstack/react-query";
 import "./globals.css";
 import { ThemeProvider} from 'next-themes'
+import { Provideres } from "./providers";
 
 export default async function RootLayout({
   children,
@@ -9,9 +11,7 @@ export default async function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
-        <ThemeProvider attribute="class" defaultTheme="dark" disableTransitionOnChange>
-          {children}
-        </ThemeProvider>
+        <Provideres>{children}</Provideres>
       </body>
     </html>
   );
