@@ -4,7 +4,6 @@ import { z } from 'zod'
 import { HTTPError } from 'ky';
 
 import { createOrganization } from 'http/create-organization'
-import path from 'path';
 
 const organizationSchema = z.object({
     name: z.string().min(4, {message: 'Please, include at least 4 caracters.'}),

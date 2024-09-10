@@ -1,3 +1,4 @@
+import { resolve } from "path";
 import { api } from "./api-client";
 
 interface GetProjectsResponse {
