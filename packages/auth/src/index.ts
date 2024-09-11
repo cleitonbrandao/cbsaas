@@ -25,7 +25,7 @@ const appAbilitiesSachema = z.union([
   inviteSubject,
   billingSubject,
 
-  z.tuple([z.literal('manager'), z.literal('all')]),
+  z.tuple([z.literal('manage'), z.literal('all')]),
 ]);
 
 type AppAbilities = z.infer<typeof appAbilitiesSachema>;
