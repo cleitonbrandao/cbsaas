@@ -8,10 +8,19 @@ import { AlertTriangle, Loader2 } from 'lucide-react';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useFormState } from 'hooks/use-form-state';
 
-import { createOrganizationAction } from './actions';
+import { createOrganizationAction, OrganizationSchema, updateOrganizationAction } from './actions';
 
-export function OrganizaitonForm() {
-    const [{success, message, errors}, handleSubmit, isPending] = useFormState(createOrganizationAction)
+interface OrganizationFormProps {
+    isUpdating?: boolean
+    initialData: OrganizationSchema
+}
+
+export function OrganizaitonForm({
+    isUpdating = false,
+    initialData,    
+}: OrganizationFormProps) {
+    const formAction = isUpdating ? updateOrganizationAction : createOrganizationAction
+    const [{success, message, errors}, handleSubmit, isPending] = useFormState(formAction)
     return(
         <form onSubmit={handleSubmit} className="space-y-4">
             {success === false && message &&(
@@ -36,7 +45,7 @@ export function OrganizaitonForm() {
 
             <div className="space-y-1">
                 <Label htmlFor="name">Organizaiton name</Label>
-                <Input name="name" id="name"/>
+                <Input name="name" id="name" defaultValue={initialData?.name}/>
 
                 {errors?.name && (
                     <p className="text-xs font-medium text-red-500 dark:text-red-400">{errors.name[0]}</p>
@@ -45,7 +54,7 @@ export function OrganizaitonForm() {
 
             <div className="space-y-1">
                 <Label htmlFor="domain">E-mail domain</Label>
-                <Input name="domain" type="text" id="domain" inputMode="url" placeholder="exemplo.com"/>
+                <Input name="domain" type="text" id="domain" inputMode="url" placeholder="exemplo.com" defaultValue={initialData?.domain ?? undefined}/>
 
                 {errors?.domain && (
                     <p className="text-xs font-medium text-red-500 dark:text-red-400">{errors.domain[0]}</p>
@@ -54,7 +63,7 @@ export function OrganizaitonForm() {
 
             <div className="space-y-1">
                 <div className="flex items-baseline space-x-2">
-                    <Checkbox name="shouldAttachUserByDomain" id="shouldAttachUserByDomain" className="translate-y-0.5"/>
+                    <Checkbox name="shouldAttachUserByDomain" id="shouldAttachUserByDomain" className="translate-y-0.5" defaultChecked={initialData?.shouldAttachUserByDomain}/>
                     <label htmlFor="shouldAttachUserByDomain" className="space-y-1">
                         <span className="text-sm font-medium leading-none">Auto-join members</span>
                         <p>This is will automatically invite all member with 
