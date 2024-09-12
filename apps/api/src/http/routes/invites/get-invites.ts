@@ -22,7 +22,8 @@ export async function getInvites(app: FastifyInstance) {
                 }),
                 response: {
                     200: z.object({
-                        invites: z.object({
+                        invites: z.array(
+                            z.object({
                             id: z.string().uuid(),
                             email: z.string().email(),
                             role: roleSchema,
