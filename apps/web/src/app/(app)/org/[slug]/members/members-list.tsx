@@ -9,6 +9,7 @@ import { GetOrganization } from "http/get-organization"
 import { ArrowRightLeft, Crown, UserMinus } from "lucide-react"
 import Image from "next/image"
 import { removeMemberAction } from "./actions"
+import { UpdateMemberRoleSelect } from "./update-member-role-select"
 
 export async function MemberList() {
     const currentOrg = getCurrentOrg()
@@ -62,7 +63,9 @@ export async function MemberList() {
                                                     Transfer ownership
                                                 </Button>
                                             )}
-
+                                            <UpdateMemberRoleSelect memberId={member.id} disabled={
+                                                member.userId === membership.userId || member.userId === organization.ownerId || permission?.cannot('update', 'User')
+                                            } value={member.role}/>
                                             {permission?.can('delete', 'User') && (
                                                 <form action={removeMemberAction.bind(null, member.id)}>
                                                     <Button size="sm" variant="destructive" disabled={member.userId === membership.userId || member.userId === organization.ownerId} type="submit" >
