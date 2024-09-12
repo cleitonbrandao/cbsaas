@@ -24,15 +24,16 @@ export async function getInvites(app: FastifyInstance) {
                     200: z.object({
                         invites: z.array(
                             z.object({
-                            id: z.string().uuid(),
-                            email: z.string().email(),
-                            role: roleSchema,
-                            createdAt: z.date(),
-                            author: z.object({
                                 id: z.string().uuid(),
-                                name: z.string().nullable(),
-                            }).nullable()
-                        })
+                                email: z.string().email(),
+                                role: roleSchema,
+                                createdAt: z.date(),
+                                author: z.object({
+                                    id: z.string().uuid(),
+                                    name: z.string().nullable(),
+                                }).nullable()
+                            })
+                        )
                     })
                 }
             }
@@ -40,6 +41,7 @@ export async function getInvites(app: FastifyInstance) {
         async (request) => {
             const { slug } = request.params
             const userId = await request.getCurrentUserId()
+
             const { organization, membership } = await request.getUserMembership(slug)
 
             const { cannot } = getUserPermissions(userId, membership.role)
