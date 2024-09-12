@@ -5,7 +5,6 @@ export function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl
 
     const response = NextResponse.next()
-    console.log(pathname)
     if(pathname.startsWith('/org')) {
         const [, , slug] = pathname.split('/')
 
