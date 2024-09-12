@@ -3,6 +3,7 @@ import { ability, getCurrentOrg } from "@/auth/auth"
 import { Card, CardTitle, CardDescription, CardHeader, CardContent } from "@/components/ui/card"
 import { ShuttdownOrganizationButton } from "./shuttdown-organization-button"
 import { GetOrganization } from "http/get-organization"
+import { Billing } from "./billing"
 
 export default async function Settings() {
     const currentOrg = getCurrentOrg()
@@ -33,7 +34,7 @@ export default async function Settings() {
                     </Card>
                 )}
 
-                {canGetBilling && <div>billing</div>}
+                {canGetBilling && <Billing />}
 
                 {canUpdateOrganization && (
                     <Card>

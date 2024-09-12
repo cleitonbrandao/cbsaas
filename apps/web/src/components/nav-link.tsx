@@ -1,19 +1,15 @@
 'use client'
 
 import Link from "next/link"
-import { useParams } from "next/navigation"
+import { usePathname } from "next/navigation"
 import { ComponentProps } from "react"
 
 interface NavLinkProps extends ComponentProps<typeof Link> {}
 
 export function NavLink(props: NavLinkProps) {
-    const params = useParams(); 
+    const params = usePathname(); 
+  
+    const isCurrent = props.href.toString() === params;
 
-    const currentPath = params?.slug || "";
-  
-    const hrefPath = props.href.toString().split("/").pop();
-  
-    const isCurrent = hrefPath === currentPath;
-    
     return <Link data-current={isCurrent} {...props}/>
 }
