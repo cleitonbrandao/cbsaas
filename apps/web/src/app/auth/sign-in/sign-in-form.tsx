@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
 import  Link  from "next/link"
 import Image from "next/image"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import googleIconSvg from '@/assets/google-icon.svg'
 
 import { signInWithEmailAndPassword } from "./action"
@@ -17,6 +17,8 @@ import { useFormState } from "hooks/use-form-state"
 
 export default function SignInForm() {
     const router = useRouter()
+    const searchParams = useSearchParams()
+
      const [{success, message, errors}, handleSubmit, isPending] = useFormState(signInWithEmailAndPassword, () => {
         router.push('/')
      })
@@ -34,7 +36,7 @@ export default function SignInForm() {
                 )}
                 <div className="space-y-1">
                     <Label htmlFor="email">E-mail</Label>
-                    <Input name="email" type="enail" id="email"/>
+                    <Input name="email" type="enail" id="email" defaultValue={searchParams.get('email') ?? ''}/>
 
                     {errors?.email && (
                         <p className="text-xs font-medium text-red-500 dark:text-red-400">
