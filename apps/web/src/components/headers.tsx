@@ -6,6 +6,7 @@ import { ability } from "@/auth/auth";
 import { ThemeSwitcher } from "./theme/theme-switcher";
 import { Separator } from "./ui/separator";
 import { ProjectSwitcher } from "./project-switcher";
+import { PendingInvites } from "./pending-invites";
 
 export async function Header() {
     const permissions = await ability()
@@ -31,6 +32,7 @@ export async function Header() {
             </div>
 
             <div className="flex items-center gap-4">
+                <PendingInvites />
                 <ThemeSwitcher />
                 <Separator orientation="vertical" className="h-5"/>
                 <ProfileButton />
