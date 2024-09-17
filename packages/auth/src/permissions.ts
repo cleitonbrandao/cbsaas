@@ -7,7 +7,7 @@ import { Role } from "./roles"
 type PermissionByRole = 
 (
     user: User,
-    biuld: AbilityBuilder<AppAbility>
+    builder: AbilityBuilder<AppAbility>
 ) => void
 
 export const permissions: Record<Role, PermissionByRole> = {
