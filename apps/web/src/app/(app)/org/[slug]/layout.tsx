@@ -1,6 +1,4 @@
 
-import { redirect } from "next/navigation"
-import { isAuthenticated } from "@/auth/auth"
 import { Header } from "@/components/headers"
 import { Tabs } from "@/components/tabs"
 

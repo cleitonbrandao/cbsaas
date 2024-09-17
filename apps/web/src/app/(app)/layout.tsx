@@ -1,6 +1,5 @@
 import { isAuthenticated } from "@/auth/auth";
 import { redirect } from "next/navigation";
-import { Header } from "@/components/headers";
 
 export default function AppLayout({
     sheet,

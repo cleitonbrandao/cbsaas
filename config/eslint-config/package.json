@@ -8,12 +8,19 @@
     "node.js"
   ],
   "devDependencies": {
+    "@cbsaas/prettier": "workspace:*",
+    "@eslint/js": "^9.10.0",
     "@rocketseat/eslint-config": "^2.2.2",
+    "eslint": "^9.10.0",
+    "eslint-plugin-react": "^7.36.1",
     "eslint-plugin-simple-import-sort": "^12.1.1",
-    "@cbsaas/prettier": "workspace:*"
+    "globals": "^15.9.0",
+    "typescript-eslint": "^8.6.0"
   },
   "prettier": "@cbsaas/prettier",
   "eslintConfig": {
-    "extends": ["./library.js"]
+    "extends": [
+      "./library.js"
+    ]
   }
 }

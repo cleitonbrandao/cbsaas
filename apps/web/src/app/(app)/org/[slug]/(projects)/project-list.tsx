@@ -1,7 +1,7 @@
 import { getCurrentOrg } from "@/auth/auth";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { getProjects } from "http/get-projects";
 import { ArrowRight } from "lucide-react";
 import dayjs from 'dayjs'

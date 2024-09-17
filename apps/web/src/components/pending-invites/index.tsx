@@ -10,7 +10,6 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { GetPendingInvites } from "http/get-pending-invites";
 import { useState } from "react";
 import { AccpetInviteAction, RejectInviteAction } from "./actions";
-import { queryClient } from '../../lib/react-query';
 
 dayjs.extend(relativeTime)
 
@@ -19,7 +18,7 @@ export function PendingInvites() {
 
     const [isOpen, setIsOpen] = useState(false)
 
-    const { data, isLoading, refetch } = useQuery({
+    const { data } = useQuery({
         queryKey: ['pending-invites'],
         queryFn: GetPendingInvites,
         enabled: isOpen,
@@ -55,7 +54,7 @@ export function PendingInvites() {
 
                 {data?.invites.map(invite => {
                     return(
-                        <div className="space-y-2">
+                        <div key={invite.id} className="space-y-2">
                             <p className="text-sm leading-relaxed text-muted-foreground">
                                 <span className="font-medium text-foreground">
                                         {invite.author?.name ?? 'Someone'}    

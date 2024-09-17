@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { Slash } from "lucide-react";
 import { ProfileButton } from "./profile-button";
 import { OrganizationSwitcher } from "./organization-switcher";

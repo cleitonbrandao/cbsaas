@@ -31,7 +31,7 @@ export async function createProjectAction(data: FormData) {
         if(error instanceof HTTPError) {
             const {message} = await error.response.json()
 
-            return {success: false, message: 'Unexpected error, try again in a few minutes.', errors: null}
+            return {success: false, message, errors: null}
         }
 
         console.error(error)

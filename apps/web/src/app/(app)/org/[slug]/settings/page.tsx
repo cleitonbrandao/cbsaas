@@ -36,7 +36,7 @@ export default async function Settings() {
 
                 {canGetBilling && <Billing />}
 
-                {canUpdateOrganization && (
+                {canShuttdownOrganization && (
                     <Card>
                         <CardHeader>
                             <CardTitle>Shuttdown organization.</CardTitle>
