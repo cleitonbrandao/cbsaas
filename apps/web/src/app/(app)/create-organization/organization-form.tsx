@@ -12,7 +12,7 @@ import { createOrganizationAction, OrganizationSchema, updateOrganizationAction 
 
 interface OrganizationFormProps {
     isUpdating?: boolean
-    initialData: OrganizationSchema
+    initialData?: OrganizationSchema
 }
 
 export function OrganizaitonForm({

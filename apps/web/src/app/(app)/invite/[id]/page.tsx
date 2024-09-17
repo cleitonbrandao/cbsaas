@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button"
 import { CheckCircle, LogIn, LogOut } from "lucide-react"
 import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
-import { acceptInvite } from 'http/accept-invite';
+import { AcceptInvite } from 'http/accept-invite';
 import Link from "next/link"
 
 dayjs.extend(relativeTime)
@@ -46,7 +46,7 @@ export default async function InvitePage({params}: InvitePageProps) {
     async function acceptInviteAction() {
         'use server'
 
-        await acceptInvite(inviteId)
+        await AcceptInvite(inviteId)
 
         redirect('/')
     }

@@ -5,7 +5,7 @@ import { cookies } from 'next/headers';
 
 import { SignInWithPassword } from "http/sign-in-with-password";
 import { HTTPError } from 'ky';
-import { acceptInvite } from 'http/accept-invite';
+import { AcceptInvite } from 'http/accept-invite';
 
 const signInSchema = z.object({
     email: z.string().email({ message: 'Please, provide a valid e-mail address.'}),
@@ -42,7 +42,7 @@ export async function signInWithEmailAndPassword(data: FormData) {
 
         if(inviteId) {
             try{
-                await acceptInvite(inviteId)
+                await AcceptInvite(inviteId)
                 cookies().delete('inviteId')
             } catch {}
         }
