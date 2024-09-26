@@ -130,3 +130,39 @@ model Project {
 
   @@map("projects")
 }
+
+model Product {
+  id          String   @id @default(uuid()) @db.Uuid
+  name        String @@unique
+  description String?
+  price       Float
+  price_cost  Float
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+
+  @@map("products")
+}
+
+model Service {
+  id String @id @default(uuid()) @db.Uuid
+  name String @@unique
+  service_time String?
+  price Float? @default(0)
+  price_cost Float? @default(0)
+  description String?
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("services")
+}
+
+model Package {
+  id String @id @default(uuid()) @db.Uuid
+  name String @unique
+  price Float? @default(0)
+  description String?
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("packages")
+}
