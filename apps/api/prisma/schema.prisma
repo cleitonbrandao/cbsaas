@@ -94,7 +94,7 @@ model Member {
 }
 
 model Organization {
-  id                        String   @id @default(uuid())
+  id                        String   @id @default(uuid()) 
   name                      String
   slug                      String   @unique
   domain                    String?  @unique
@@ -136,7 +136,7 @@ model Project {
 }
 
 model Product {
-  id          String   @id @default(uuid()) @db.Uuid
+  id          String   @id @default(uuid()) 
   name        String
   description String?
   price       Float
@@ -145,7 +145,7 @@ model Product {
   updated_at  DateTime @updatedAt
 
   organization_owner Organization @relation(fields: [organizationId], references: [id])
-  organizationId String @map("organization_id") @db.Uuid
+  organizationId String @map("organization_id") 
 
   packages Package[]
   packageProducts PackageProduct[]
@@ -155,7 +155,7 @@ model Product {
 }
 
 model Service {
-  id String @id @default(uuid()) @db.Uuid
+  id String @id @default(uuid()) 
   name String
   estimated_time String?
   price Float? @default(0)
@@ -167,7 +167,7 @@ model Service {
   package Package[]
 
   organization_owner Organization @relation(fields: [organizationId], references: [id])
-  organizationId String @map("organization_id") @db.Uuid
+  organizationId String @map("organization_id") 
 
   packageServices PackageService[]
 
@@ -176,7 +176,7 @@ model Service {
 }
 
 model Package {
-  id String @id @default(uuid()) @db.Uuid
+  id String @id @default(uuid()) 
   name String
   price Float? @default(0)
   description String?
@@ -184,7 +184,7 @@ model Package {
   updated_at DateTime @updatedAt
 
   organization_owner Organization @relation(fields: [organizationId], references: [id])
-  organizationId String @map("organization_id") @db.Uuid
+  organizationId String @map("organization_id") 
 
   services Service[]
   products Product[]
@@ -199,9 +199,9 @@ model Package {
 }
 
 model PackageService {
-  id String @id @default(uuid()) @db.Uuid
-  packageId String @map("package_id") @db.Uuid
-  serviceId String @map("service_id") @db.Uuid
+  id String @id @default(uuid()) 
+  packageId String @map("package_id") 
+  serviceId String @map("service_id") 
 
   package Package @relation(fields: [packageId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   service Service @relation(fields: [serviceId], references: [id], onUpdate: Cascade, onDelete: Cascade)
@@ -210,9 +210,9 @@ model PackageService {
 }
 
 model PackageProduct {
-  id String @id @default(uuid()) @db.Uuid
-  packageId String @map("package_id") @db.Uuid
-  productId String @map("product_id") @db.Uuid
+  id String @id @default(uuid()) 
+  packageId String @map("package_id") 
+  productId String @map("product_id") 
   
   package Package @relation(fields: [packageId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   product Product @relation(fields: [productId], references: [id], onUpdate: Cascade, onDelete: Cascade)
@@ -221,9 +221,9 @@ model PackageProduct {
 }
 
 model GroupPackage {
-  id String @id @default(uuid()) @db.Uuid
-  package_origin_id String @db.Uuid
-  package_id String @db.Uuid
+  id String @id @default(uuid()) 
+  package_origin_id String 
+  package_id String 
   deleted_at DateTime? @db.Timestamptz
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
