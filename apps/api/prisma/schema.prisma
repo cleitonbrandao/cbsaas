@@ -144,10 +144,11 @@ model Product {
   created_at  DateTime @default(now())
   updated_at  DateTime @updatedAt
 
-  organization_owner Organization @relation([fields: [organizationId], references: [id]])
+  organization_owner Organization @relation(fields: [organizationId], references: [id])
   organizationId String @map("organization_id") @db.Uuid
 
   packages Package[]
+  packageProducts PackageProduct[]
 
   @@unique([name, organizationId])
   @@map("products")
@@ -163,8 +164,12 @@ model Service {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
-  organization_owner Organization @relation([fields: [organizationId], references: [id]])
+  package Package[]
+
+  organization_owner Organization @relation(fields: [organizationId], references: [id])
   organizationId String @map("organization_id") @db.Uuid
+
+  packageServices PackageService[]
 
   @@unique([name, organizationId])
   @@map("services")
@@ -178,11 +183,16 @@ model Package {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
-  organization_owner Organization @relation([fields: [organizationId], references: [id]])
+  organization_owner Organization @relation(fields: [organizationId], references: [id])
   organizationId String @map("organization_id") @db.Uuid
 
-  groupsPackagesGroups  GroupsPackages[] @relation("PackageOrigin")
-  groupsPackagesPackages GroupsPackages[] @relation("Package")
+  services Service[]
+  products Product[]
+
+  groupsPackagesGroups  GroupPackage[] @relation("PackageOrigin")
+  groupsPackagesPackages GroupPackage[] @relation("Package")
+  packageServices PackageService[]
+  packageProduct PackageProduct[]
 
   @@unique([name, organizationId])
   @@map("packages")
@@ -193,8 +203,8 @@ model PackageService {
   packageId String @map("package_id") @db.Uuid
   serviceId String @map("service_id") @db.Uuid
 
-  package Package @relation([fields: [packageId], references: [id], onUpdate: Cascade, onDelete: Cascade])
-  Service Service @relation([fields: [serviceId], references: [id], onUpdate: Cascade, onDelete: Cascade])
+  package Package @relation(fields: [packageId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  service Service @relation(fields: [serviceId], references: [id], onUpdate: Cascade, onDelete: Cascade)
 
   @@map("packages_services")
 }
@@ -204,8 +214,8 @@ model PackageProduct {
   packageId String @map("package_id") @db.Uuid
   productId String @map("product_id") @db.Uuid
   
-  packages Package @relation([fields: [packageId], references: [id], onUpdate: Cascade, onDelete: Cascade])
-  products Product @relation([fields: [productId], references: [id], onUpdate: Cascade, onDelete: Cascade])
+  package Package @relation(fields: [packageId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onUpdate: Cascade, onDelete: Cascade)
 
   @@map("packages_products")
 }
@@ -218,8 +228,8 @@ model GroupPackage {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
-  packageOrigin Package @relation("PackageOrigin",[fields: [package_origin_id], references: [id], onUpdate: Cascade, onDelete: Cascade])
-  packages Package @relation("Package", [fields: [package_id], references: [id], onUpdate: Cascade, onDelete: Cascade])
+  packageOrigin Package @relation("PackageOrigin", fields: [package_origin_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  packages Package @relation("Package", fields: [package_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
 
   @@map("groups_packages")
 }
