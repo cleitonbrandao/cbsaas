@@ -8,7 +8,7 @@ datasource db {
 }
 
 model User {
-  id           String   @id @default(uuid())
+  id           String   @id @default(uuid()) @db.Uuid
   name         String?
   email        String   @unique
   passwordHash String?  @map("password_hash")
@@ -31,12 +31,12 @@ enum TokenType {
 }
 
 model Token {
-  id        String    @id @default(uuid())
+  id        String    @id @default(uuid()) @db.Uuid
   type      TokenType
   createdAt DateTime  @default(now()) @map("created_at")
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String @map("user_id")
+  userId String @map("user_id") @db.Uuid
 
   @@map("tokens")
 }
@@ -46,12 +46,12 @@ enum AccountProvider {
 }
 
 model Account {
-  id                String          @id @default(uuid())
+  id                String          @id @default(uuid()) @db.Uuid
   provider          AccountProvider
   providerAccountId String          @unique @map("provider_account_id")
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String @map("user_id")
+  userId String @map("user_id") @db.Uuid
 
   @@map("accounts")
 }
@@ -63,16 +63,16 @@ enum Role {
 }
 
 model Invite {
-  id        String   @id @default(uuid())
+  id        String   @id @default(uuid()) @db.Uuid
   email     String
   role      Role
   createdAt DateTime @default(now()) @map("created_at")
 
   author User?   @relation(fields: [authorId], references: [id], onDelete: SetNull)
-  authorId String? @map("author_id")
+  authorId String? @map("author_id") @db.Uuid
 
   organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  organizationId String       @map("organization_id")
+  organizationId String       @map("organization_id") @db.Uuid
 
   @@unique([email, organizationId])
   @@index([email])
@@ -80,21 +80,21 @@ model Invite {
 }
 
 model Member {
-  id   String @id @default(uuid())
+  id   String @id @default(uuid()) @db.Uuid
   role Role   @default(MEMBER)
 
   organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  organizationId String       @map("organization_id")
+  organizationId String       @map("organization_id") @db.Uuid
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String @map("user_id")
+  userId String @map("user_id") @db.Uuid
 
   @@unique([organizationId, userId])
   @@map("members")
 }
 
 model Organization {
-  id                        String   @id @default(uuid()) 
+  id                        String   @id @default(uuid()) @db.Uuid
   name                      String
   slug                      String   @unique
   domain                    String?  @unique
@@ -104,7 +104,7 @@ model Organization {
   updatedAt                 DateTime @updatedAt @map("updated_at")
 
   owner   User   @relation(fields: [ownerId], references: [id])
-  ownerId String @map("ownder_id")
+  ownerId String @map("ownder_id") @db.Uuid
 
   invites  Invite[]
   members  Member[]
@@ -118,7 +118,7 @@ model Organization {
 }
 
 model Project {
-  id          String   @id @default(uuid())
+  id          String   @id @default(uuid()) @db.Uuid
   name        String
   description String?
   slug        String   @unique
@@ -127,16 +127,16 @@ model Project {
   updatedAt   DateTime @updatedAt @map("updated_at")
 
   organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  organizationId String       @map("organization_id")
+  organizationId String       @map("organization_id") @db.Uuid
 
   owner   User   @relation(fields: [ownerId], references: [id])
-  ownerId String @map("owner_id")
+  ownerId String @map("owner_id") @db.Uuid
 
   @@map("projects")
 }
 
 model Product {
-  id          String   @id @default(uuid()) 
+  id          String   @id @default(uuid()) @db.Uuid
   name        String
   description String?
   price       Float
@@ -145,7 +145,7 @@ model Product {
   updated_at  DateTime @updatedAt
 
   organization_owner Organization @relation(fields: [organizationId], references: [id])
-  organizationId String @map("organization_id") 
+  organizationId String @map("organization_id") @db.Uuid
 
   packages Package[]
   packageProducts PackageProduct[]
@@ -155,7 +155,7 @@ model Product {
 }
 
 model Service {
-  id String @id @default(uuid()) 
+  id String @id @default(uuid()) @db.Uuid
   name String
   estimated_time String?
   price Float? @default(0)
@@ -167,7 +167,7 @@ model Service {
   package Package[]
 
   organization_owner Organization @relation(fields: [organizationId], references: [id])
-  organizationId String @map("organization_id") 
+  organizationId String @map("organization_id") @db.Uuid
 
   packageServices PackageService[]
 
@@ -176,7 +176,7 @@ model Service {
 }
 
 model Package {
-  id String @id @default(uuid()) 
+  id String @id @default(uuid()) @db.Uuid
   name String
   price Float? @default(0)
   description String?
@@ -184,7 +184,7 @@ model Package {
   updated_at DateTime @updatedAt
 
   organization_owner Organization @relation(fields: [organizationId], references: [id])
-  organizationId String @map("organization_id") 
+  organizationId String @map("organization_id") @db.Uuid
 
   services Service[]
   products Product[]
@@ -199,9 +199,9 @@ model Package {
 }
 
 model PackageService {
-  id String @id @default(uuid()) 
-  packageId String @map("package_id") 
-  serviceId String @map("service_id") 
+  id String @id @default(uuid()) @db.Uuid
+  packageId String @map("package_id") @db.Uuid
+  serviceId String @map("service_id") @db.Uuid
 
   package Package @relation(fields: [packageId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   service Service @relation(fields: [serviceId], references: [id], onUpdate: Cascade, onDelete: Cascade)
@@ -210,9 +210,9 @@ model PackageService {
 }
 
 model PackageProduct {
-  id String @id @default(uuid()) 
-  packageId String @map("package_id") 
-  productId String @map("product_id") 
+  id String @id @default(uuid()) @db.Uuid
+  packageId String @map("package_id") @db.Uuid
+  productId String @map("product_id") @db.Uuid
   
   package Package @relation(fields: [packageId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   product Product @relation(fields: [productId], references: [id], onUpdate: Cascade, onDelete: Cascade)
@@ -221,9 +221,9 @@ model PackageProduct {
 }
 
 model GroupPackage {
-  id String @id @default(uuid()) 
-  package_origin_id String 
-  package_id String 
+  id String @id @default(uuid()) @db.Uuid
+  package_origin_id String @db.Uuid
+  package_id String @db.Uuid
   deleted_at DateTime? @db.Timestamptz
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
