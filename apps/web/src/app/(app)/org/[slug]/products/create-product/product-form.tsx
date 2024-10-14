@@ -11,6 +11,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { useParams } from "next/navigation";
 import { queryClient } from "@/lib/react-query";
+import { Monetary } from "@/components/Inputs/InputMonetary/Monetary";
 
 export function ProductForm() {
     const {slug: org} = useParams<{slug: string}>()
@@ -69,7 +70,7 @@ export function ProductForm() {
 
             <div className="space-y-1">
                 <Label htmlFor="description">Price</Label>
-                <Textarea name="price" id="price"/>
+                <Monetary name="price" id="price"/>
 
                 {errors?.description && (
                     <p className="text-xs font-medium text-red-500 dark:text-red-400">
