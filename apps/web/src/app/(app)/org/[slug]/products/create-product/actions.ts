@@ -4,6 +4,7 @@ import { HTTPError } from 'ky'
 import {string, z} from 'zod'
 import { CreateProduct } from 'http/create-product'
 import { getCurrentOrg } from '@/auth/auth'
+import { revalidateTag } from 'next/cache'
 
 const prodductSchema = z.object({
     name: string().min(4, {message: 'Pleasw, include at least 4 caracters.'}),
@@ -13,6 +14,7 @@ const prodductSchema = z.object({
 })
 
 export async function createProductAction(data: FormData) {
+    const currentOrg = getCurrentOrg();
     const result = prodductSchema.safeParse(Object.fromEntries(data))
 
     if(!result.success) {
@@ -31,6 +33,8 @@ export async function createProductAction(data: FormData) {
             price,
             price_cost
         })
+
+        revalidateTag(`${currentOrg}/products`)
     }catch(error) {
         if(error instanceof HTTPError) {
             const {message} = await error.response.json()

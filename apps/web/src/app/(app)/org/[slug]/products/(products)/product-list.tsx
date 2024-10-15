@@ -16,7 +16,7 @@ export async function ProductList() {
     const { products } = await getProducts(currentOrg!)
 
     return (
-        <div className="grid grid-cols gap-4">
+        <div className="grid grid-cols gap-4 p-3">
             <Table>
             <TableHeader>
                 <TableRow>
@@ -31,10 +31,9 @@ export async function ProductList() {
                     return(
                         <TableRow key={product.id}>
                             <TableCell  className="font-medium">{product.name}</TableCell>
-                            <TableCell >{product.name}</TableCell>
-                            <TableCell >{product.description}</TableCell>
-                            <TableCell >{product.price}</TableCell>
-                            <TableCell >{product.price_cost}</TableCell>
+                            <TableCell className="truncate" >{product.description}</TableCell>
+                            <TableCell >{product.price.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})}</TableCell>
+                            <TableCell >{product.price_cost.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})}</TableCell>
                         </TableRow>
                     )
                 })}

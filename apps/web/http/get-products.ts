@@ -2,6 +2,7 @@ import { api } from "./api-client";
 
 interface GetProductsResponse {
     products: {
+        id: string,
         name: string,
         description: string,
         price: string,
