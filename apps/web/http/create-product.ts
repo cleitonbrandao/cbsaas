@@ -13,7 +13,7 @@ type CreateProductResponse = void
 export async function CreateProduct({
     org, name, description, price, price_cost
 }: CreateProductRequest): Promise<CreateProductResponse> {
-    await api.post(`organizations/${org}/product`, {
+    await api.post(`organizations/${org}/products`, {
         json: {
             name,
             description,

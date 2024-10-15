@@ -6,40 +6,40 @@ import { getProjects } from "http/get-projects";
 import { ArrowRight } from "lucide-react";
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
+import { Table, TableRow, TableBody, TableHead, TableHeader, TableCell } from "@/components/ui/table";
+import { getProducts } from "http/get-products";
 
 dayjs.extend(relativeTime)
 
 export async function ProductList() {
     const currentOrg = getCurrentOrg()
-    const { projects } = await getProjects(currentOrg!)
+    const { products } = await getProducts(currentOrg!)
 
     return (
-        <div className="grid grid-cols-3 gap-4">
-            {projects.map(project => {
-                return(
-                    <Card key={project.id} className="flex flex-col justify-between">
-                        <CardHeader>
-                            <CardTitle className="text-xl font-semibold">{project.name}</CardTitle>
-                            <CardDescription className="line-clamp-3 leading-relaxed">{project.description}</CardDescription>
-                        </CardHeader>
-                        <CardFooter className="flex items-center gap-1.5">
-                            <Avatar className="size-4">
-                                {project.owner.avatarUrl && (
-                                    <AvatarImage src={project.avatarUrl ?? undefined} />
-                                )}
-                                <AvatarFallback />
-                            </Avatar>
-                            <span className="text-xs text-muted-foreground truncate">
-                                <span className="font-medium text-foreground">{project.owner.name}</span> {dayjs(project.createdAt).fromNow()}
-                            </span>
-        
-                            <Button size="xs" variant="outline" className="ml-auto">
-                                View <ArrowRight className="size-3 ml-2"/>
-                            </Button>
-                        </CardFooter>
-                    </Card>
-                )
-            })}
+        <div className="grid grid-cols gap-4">
+            <Table>
+            <TableHeader>
+                <TableRow>
+                    <TableHead>Name</TableHead>
+                    <TableHead>Description</TableHead>
+                    <TableHead>Price</TableHead>
+                    <TableHead>Price Cost</TableHead>
+                </TableRow>
+            </TableHeader>
+            <TableBody>
+                {products.map(product => {
+                    return(
+                        <TableRow key={product.id}>
+                            <TableCell  className="font-medium">{product.name}</TableCell>
+                            <TableCell >{product.name}</TableCell>
+                            <TableCell >{product.description}</TableCell>
+                            <TableCell >{product.price}</TableCell>
+                            <TableCell >{product.price_cost}</TableCell>
+                        </TableRow>
+                    )
+                })}
+            </TableBody>
+            </Table>
         </div>
     )
 }
