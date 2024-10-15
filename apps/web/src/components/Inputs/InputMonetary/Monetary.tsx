@@ -5,15 +5,16 @@ type InputProps = InputHTMLAttributes<HTMLInputElement>;
 
 
 export const Monetary = forwardRef<HTMLInputElement, InputProps>(({ type="text", name="", ...props }, ref) => {
-    const [value, setValue] = useState("");
+    const [value, setValue] = useState("R$ 0,00");
 
     const formatNumber = (value: string) => {
-        const numericValue = value.replace(/[^\d]/g, "");
-        if (!numericValue) return "";
+        const numericValue = parseFloat(value.replace(/[^\d]/g, "")) / 100;
+        if (isNaN(numericValue)) return "";
         
-        return numericValue
-          .replace(/\B(?=(\d{3})+(?!\d))/g, ".")
-          .replace(/(\d+)(\d{2})$/, "$1,$2");
+        return new Intl.NumberFormat("pt-BR", {
+            style: "currency",
+            currency: "BRL"
+        }).format(numericValue);
       };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

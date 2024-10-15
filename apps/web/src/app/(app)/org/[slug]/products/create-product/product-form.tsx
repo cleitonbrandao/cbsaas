@@ -69,7 +69,7 @@ export function ProductForm() {
             </div>
 
             <div className="space-y-1">
-                <Label htmlFor="description">Price</Label>
+                <Label htmlFor="price">Price</Label>
                 <Monetary name="price" id="price"/>
 
                 {errors?.description && (
@@ -80,8 +80,8 @@ export function ProductForm() {
             </div>
             
             <div className="space-y-1">
-                <Label htmlFor="description">Price cost</Label>
-                <Textarea name="price_cost" id="price_cost"/>
+                <Label htmlFor="price_cost">Price cost</Label>
+                <Monetary name="price_cost" id="price_cost"/>
 
                 {errors?.description && (
                     <p className="text-xs font-medium text-red-500 dark:text-red-400">

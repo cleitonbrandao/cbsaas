@@ -5,27 +5,31 @@ import {string, z} from 'zod'
 import { CreateProduct } from 'http/create-product'
 import { getCurrentOrg } from '@/auth/auth'
 
-const projectSchema = z.object({
+const prodductSchema = z.object({
     name: string().min(4, {message: 'Pleasw, include at least 4 caracters.'}),
-    description: string()
+    description: z.string().optional(),
+    price: z.string().optional(),
+    price_cost: z.string().optional()
 })
 
 export async function createProductAction(data: FormData) {
-    const result = projectSchema.safeParse(Object.fromEntries(data))
+    const result = prodductSchema.safeParse(Object.fromEntries(data))
 
     if(!result.success) {
         const errors = result.error.flatten().fieldErrors
 
-        return {success: false, message: null, errors}
+        return {success: false, message: null, errors} 
     }
 
-    const {name, description} = result.data
+    const {name, description, price, price_cost} = result.data
 
     try{
         await CreateProduct({
             org: getCurrentOrg()!,
             name,
-            description
+            description,
+            price,
+            price_cost
         })
     }catch(error) {
         if(error instanceof HTTPError) {
