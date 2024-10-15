@@ -5,6 +5,7 @@ import { ZodTypeProvider } from "fastify-type-provider-zod";
 import {z} from 'zod';
 import { UnauthoraziedError } from "../_erros/unauthorized-error";
 import { prisma } from "@/ilb/prisma";
+import { parseCurrency } from "@/utils/parse-currency-monetary";
 
 export async function createProduct(app: FastifyInstance) {
     app
@@ -50,8 +51,8 @@ export async function createProduct(app: FastifyInstance) {
                 data: {
                     name,
                     description,
-                    price: price ? parseFloat(price) : 0,
-                    price_cost: price_cost ? parseFloat(price_cost) : 0,
+                    price: price ? parseCurrency(price) : 0,
+                    price_cost: price_cost ? parseCurrency(price_cost) : 0,
                     organizationId: organization.id,
                 }
             })

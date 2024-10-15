@@ -40,6 +40,7 @@ import { revokeInvite } from './routes/invites/revoke-invite';
 import { getPendingInvites } from './routes/invites/get-pending-invites';
 import { getOrganizationBilling } from './routes/billing/get-organization-billing';
 import { createProduct } from './routes/products/create-product';
+import { getProducts } from './routes/products/get-products';
 
 const app = fastify().withTypeProvider<ZodTypeProvider>();
 
@@ -118,6 +119,7 @@ app.register(getPendingInvites);
 app.register(getOrganizationBilling);
 
 app.register(createProduct);
+app.register(getProducts);
 
 app.listen({ port: env.PORT, host: '0.0.0.0' }).then(() => {
   console.log('HTTP server running!');
