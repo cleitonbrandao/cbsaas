@@ -5,6 +5,7 @@ import {string, z} from 'zod'
 import { CreateProduct } from 'http/create-product'
 import { getCurrentOrg } from '@/auth/auth'
 import { revalidateTag } from 'next/cache'
+import { removeProduct } from 'http/remove-product'
 
 const prodductSchema = z.object({
     name: string().min(4, {message: 'Pleasw, include at least 4 caracters.'}),
@@ -50,4 +51,12 @@ export async function createProductAction(data: FormData) {
         message: 'Successfuly create the project.', 
         errors: null
     }
+}
+
+export async function removeProductAction(productId: string) {
+    const currentOrg = getCurrentOrg();
+
+    await removeProduct({org: currentOrg!, productId})
+
+    revalidateTag(`${currentOrg}/products`);
 }

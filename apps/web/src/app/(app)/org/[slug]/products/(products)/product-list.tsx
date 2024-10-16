@@ -3,11 +3,12 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { getProjects } from "http/get-projects";
-import { ArrowRight } from "lucide-react";
+import { Pencil, Trash2 } from "lucide-react";
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { Table, TableRow, TableBody, TableHead, TableHeader, TableCell } from "@/components/ui/table";
 import { getProducts } from "http/get-products";
+import { removeProductAction } from "../create-product/actions";
 
 dayjs.extend(relativeTime)
 
@@ -34,6 +35,18 @@ export async function ProductList() {
                             <TableCell className="truncate" >{product.description}</TableCell>
                             <TableCell >{product.price.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})}</TableCell>
                             <TableCell >{product.price_cost.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})}</TableCell>
+                            <TableCell className="flex flex-row gap-2">
+                                <div>
+                                    <Button size="xs" variant="outline" className="ml-auto">
+                                        Edit <Pencil className="size-3 ml-2"/>
+                                    </Button>
+                                </div>
+                                <form action={removeProductAction.bind(null, product.id)}>
+                                    <Button size="xs" variant="destructive" className="ml-auto">
+                                        Delete <Trash2 className="size-3 ml-2"/>
+                                    </Button>
+                                </form>
+                            </TableCell>
                         </TableRow>
                     )
                 })}
