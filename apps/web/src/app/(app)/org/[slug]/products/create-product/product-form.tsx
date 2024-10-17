@@ -1,7 +1,7 @@
 'use client'
 
 import { useFormState } from "hooks/use-form-state";
-import { createProductAction } from "./actions";
+import { createProductAction, ProductSchema, updateProductAction } from "./actions";
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { AlertTriangle, Loader2 } from "lucide-react";
@@ -13,19 +13,22 @@ import { useParams } from "next/navigation";
 import { queryClient } from "@/lib/react-query";
 import { Monetary } from "@/components/Inputs/InputMonetary/Monetary";
 
-export function ProductForm() {
+interface ProductFormProps {
+    isUpdating?: boolean
+    initialData?: ProductSchema
+}
+
+export function ProductForm({
+    isUpdating = false,
+    initialData,
+}: ProductFormProps) {
+    const formAction = isUpdating ? updateProductAction : createProductAction
     const {slug: org} = useParams<{slug: string}>()
 
-    const [{success, message, errors}, handleSubimt, isPending] = useFormState(
-        createProductAction,
-    () => {
-        queryClient.invalidateQueries({
-            queryKey: [org, 'projects']
-        })
-    })
+    const [{success, message, errors}, handleSubmit, isPending] = useFormState(formAction)
 
     return (
-        <form onSubmit={handleSubimt} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4">
             {success === false && message && (
                 <Alert variant="destructive">
                     <AlertTriangle className="size-4" />
@@ -48,7 +51,7 @@ export function ProductForm() {
 
             <div className="space-y-1">
                 <Label htmlFor="name">name</Label>
-                <Input name="name" type="text" id="name"/>
+                <Input name="name" type="text" id="name" defaultValue={initialData?.name}/>
 
                 {errors?.name && (
                     <p className="text-xs font-medium text-red-500 dark:text-red-400">
@@ -59,7 +62,7 @@ export function ProductForm() {
 
             <div className="space-y-1">
                 <Label htmlFor="description">Description</Label>
-                <Textarea name="description" id="description"/>
+                <Textarea name="description" id="description" defaultValue={initialData?.description}/>
 
                 {errors?.description && (
                     <p className="text-xs font-medium text-red-500 dark:text-red-400">
@@ -70,7 +73,7 @@ export function ProductForm() {
 
             <div className="space-y-1">
                 <Label htmlFor="price">Price</Label>
-                <Monetary name="price" id="price"/>
+                <Monetary name="price" id="price" defaultValue={initialData?.price}/>
 
                 {errors?.description && (
                     <p className="text-xs font-medium text-red-500 dark:text-red-400">
@@ -81,7 +84,7 @@ export function ProductForm() {
             
             <div className="space-y-1">
                 <Label htmlFor="price_cost">Price cost</Label>
-                <Monetary name="price_cost" id="price_cost"/>
+                <Monetary name="price_cost" id="price_cost" defaultValue={initialData?.price_cost}/>
 
                 {errors?.description && (
                     <p className="text-xs font-medium text-red-500 dark:text-red-400">

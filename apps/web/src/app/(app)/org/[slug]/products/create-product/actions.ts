@@ -6,17 +6,21 @@ import { CreateProduct } from 'http/create-product'
 import { getCurrentOrg } from '@/auth/auth'
 import { revalidateTag } from 'next/cache'
 import { removeProduct } from 'http/remove-product'
+import { error } from 'console';
+import { UpdateProduct } from 'http/updata-product'
 
-const prodductSchema = z.object({
+const productSchema = z.object({
     name: string().min(4, {message: 'Pleasw, include at least 4 caracters.'}),
     description: z.string().optional(),
     price: z.string().optional(),
     price_cost: z.string().optional()
 })
 
+export type ProductSchema = z.infer<typeof productSchema>
+
 export async function createProductAction(data: FormData) {
     const currentOrg = getCurrentOrg();
-    const result = prodductSchema.safeParse(Object.fromEntries(data))
+    const result = productSchema.safeParse(Object.fromEntries(data));
 
     if(!result.success) {
         const errors = result.error.flatten().fieldErrors
@@ -59,4 +63,31 @@ export async function removeProductAction(productId: string) {
     await removeProduct({org: currentOrg!, productId})
 
     revalidateTag(`${currentOrg}/products`);
+}
+
+export async function updateProductAction(data: FormData) {
+    const currentOrg = getCurrentOrg()
+
+    const result = productSchema.safeParse(Object.fromEntries(data))
+
+    if(!result.success) {
+        const errors = result.error.flatten().fieldErrors
+
+        return (success: false, message: null, errors)
+    }
+
+    const {name, description, price, price_cost} = result.data
+
+    try{
+        await UpdateProduct({
+            org: currentOrg!,
+            productId,
+            name,
+            description,
+            price,
+            price_cost
+        })
+
+        revalidateTag(`${currentOrg}/products`);
+    }catch(err) {}
 }
