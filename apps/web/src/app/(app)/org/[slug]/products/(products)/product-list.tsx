@@ -33,8 +33,8 @@ export async function ProductList() {
                         <TableRow key={product.id}>
                             <TableCell  className="font-medium">{product.name}</TableCell>
                             <TableCell className="truncate" >{product.description}</TableCell>
-                            <TableCell >{product.price.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})}</TableCell>
-                            <TableCell >{product.price_cost.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})}</TableCell>
+                            <TableCell >{(Number(product.price)).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})}</TableCell>
+                            <TableCell >{(Number(product.price_cost)).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})}</TableCell>
                             <TableCell className="flex flex-row gap-2">
                                 <div>
                                     <Button size="xs" variant="outline" className="ml-auto">
