@@ -43,6 +43,7 @@ import { createProduct } from './routes/products/create-product';
 import { getProducts } from './routes/products/get-products';
 import { deleteProduct } from './routes/products/delete-product';
 import { updateProduct } from './routes/products/update-product';
+import { getProduct } from './routes/products/get-product';
 
 const app = fastify().withTypeProvider<ZodTypeProvider>();
 
@@ -122,6 +123,7 @@ app.register(getOrganizationBilling);
 
 app.register(createProduct);
 app.register(getProducts);
+app.register(getProduct);
 app.register(deleteProduct);
 app.register(updateProduct);
 
