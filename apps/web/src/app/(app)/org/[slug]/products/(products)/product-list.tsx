@@ -1,22 +1,59 @@
+'use client'
 import { getCurrentOrg } from "@/auth/auth";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { getProjects } from "http/get-projects";
 import { Pencil, Trash2, ArrowRight } from "lucide-react";
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { Table, TableRow, TableBody, TableHead, TableHeader, TableCell } from "@/components/ui/table";
-import { getProducts } from "http/get-products";
 import { removeProductAction } from "../create-product/actions";
 import Link from "next/link";
-
+import { FormEvent, useState } from "react";
+import ConfirmDeleteModal from "@/components/modal/ConfirmDeleteModal";
 
 dayjs.extend(relativeTime)
 
-export async function ProductList() {
-    const currentOrg = getCurrentOrg()
-    const { products } = await getProducts(currentOrg!)
+
+
+async function handleDelete(event: FormEvent<HTMLFormElement>, productId: string) {
+    event.preventDefault()
+
+    const confirmed = window.confirm('teste do confirme delete')
+
+    if(confirmed) {
+        await removeProductAction(productId)
+    }
+}
+
+interface Product {
+    id: string
+    name: string
+    description: string | undefined
+    price: string | undefined
+    price_cost: string | undefined
+    created_at: string
+}
+
+interface ProductListProps {
+    currentOrg: string | null
+    products: Product[]
+}
+
+export function ProductList({currentOrg, products}: ProductListProps) {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [productIdToDelete, setProductIdToDelete] = useState<string | null>(null);
+
+    const handleDeleteRequest = (productId: string) => {
+        setProductIdToDelete(productId);
+        setIsModalOpen(true);
+    };
+
+    const handleDelete = async () => {
+        if (productIdToDelete) {
+            await removeProductAction(productIdToDelete);
+            setIsModalOpen(false);
+            setProductIdToDelete(null);
+        }
+    };
 
     return (
         <div className="grid grid-cols gap-4 p-3">
@@ -38,28 +75,31 @@ export async function ProductList() {
                             <TableCell >{(Number(product.price)).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})}</TableCell>
                             <TableCell >{(Number(product.price_cost)).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})}</TableCell>
                             <TableCell className="flex flex-row gap-2">
-                                <Button size="xs" variant="outline" className="ml-auto" asChild>
+                                <Button size="xs" variant="outline" asChild>
                                     <Link href={`/org/${currentOrg}/products/${product.id}`}>
                                         <ArrowRight className="size-4 mr-2"/>
                                         Details
                                     </Link>
                                 </Button>
                                 <form action="">
-                                    <Button size="xs" variant="outline" className="ml-auto">
+                                    <Button size="xs" variant="outline">
                                         Edit <Pencil className="size-3 ml-2"/>
                                     </Button>
                                 </form>
-                                <form action={removeProductAction.bind(null, product.id)}>
-                                    <Button size="xs" variant="destructive" className="ml-auto">
-                                        Delete <Trash2 className="size-3 ml-2"/>
-                                    </Button>
-                                </form>
+                                <Button size="xs" variant="destructive" onClick={() => handleDeleteRequest(product.id)}>
+                                    Delete <Trash2 className="size-3 ml-2"/>
+                                </Button>
                             </TableCell>
                         </TableRow>
                     )
                 })}
             </TableBody>
             </Table>
+            <ConfirmDeleteModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                onConfirm={handleDelete}
+            />
         </div>
     )
 }

@@ -6,7 +6,8 @@ interface GetProductsResponse {
         name: string,
         description: string,
         price: string,
-        price_cost: string
+        price_cost: string,
+        created_at: string
     }[]
 }
 

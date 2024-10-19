@@ -6,8 +6,8 @@ type GetProductRequest = {
     productId: string;
   };
   
-  export async function GetProductAction({ org, productId }: GetProductRequest) {
-    const product = await GetProduct({org, productId})
+  export default async function GetProductAction({ org, productId }: GetProductRequest) {
+    const {product} = await GetProduct({org, productId})
     if (!product) {
       throw new BadRequestError('Product not found.');
     }

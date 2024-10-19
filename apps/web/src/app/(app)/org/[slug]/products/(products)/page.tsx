@@ -3,11 +3,12 @@ import { Button } from "@/components/ui/button"
 import { Plus } from "lucide-react"
 import Link from "next/link"
 import { ProductList } from "./product-list"
+import { getProducts } from "http/get-products"
 
 export default async function Projects() {
     const currentOrg = getCurrentOrg()
     const permissions = await ability()
-
+    const { products } = await getProducts(currentOrg!)
     return (
         <div className="space-y-4">
 
@@ -25,7 +26,7 @@ export default async function Projects() {
             </div>
 
             {permissions?.can('get', 'Project') ? (
-                <ProductList />
+                <ProductList currentOrg={currentOrg} products={products}/>
             ) : (
                 <p className="text-sm text-muted-foreground">You are not allowed to see organization projects</p>
             )}
