@@ -7,7 +7,7 @@ import React from "react";
 
 dayjs.extend(relativeTime)
 
-type ProductDetailPageProps = {
+interface ProductDetailPageProps {
     product: {
         id: string
         name: string
