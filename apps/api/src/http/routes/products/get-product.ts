@@ -28,7 +28,8 @@ export async function getProduct(app: FastifyInstance) {
                                 name: z.string(),
                                 description: z.string().nullable(),
                                 price: z.number(),
-                                price_cost: z.number()
+                                price_cost: z.number(),
+                                created_at: z.date()
                             })
                         })
                     }
