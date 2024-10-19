@@ -95,6 +95,7 @@ export function ProductList({currentOrg, products}: ProductListProps) {
                 })}
             </TableBody>
             </Table>
+            
             <ConfirmDeleteModal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
