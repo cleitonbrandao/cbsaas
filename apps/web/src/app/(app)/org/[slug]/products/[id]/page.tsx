@@ -3,6 +3,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { formatCurrency } from "@/utils/formatCurrency";
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
+import React from "react";
 
 dayjs.extend(relativeTime)
 
@@ -17,7 +18,7 @@ type ProductDetailPageProps = {
     }
 }
 
-export default function ProductDetailPage({ product }: ProductDetailPageProps) {
+const ProductDetailPage: React.FC<ProductDetailPageProps> = ({product}) => {
     return (
         <div className="px-2">
             <div className="flex flex-col">
@@ -54,3 +55,5 @@ export default function ProductDetailPage({ product }: ProductDetailPageProps) {
         </div>
     )
 }
+
+export default ProductDetailPage;
