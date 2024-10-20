@@ -13,7 +13,7 @@ export async function updateProduct(app: FastifyInstance) {
     app.withTypeProvider<ZodTypeProvider>()
     .register(auth)
     .put(
-        '/organizations/:slug/products/:productId',
+        '/organizations/:slug/products/:id',
         {
             schema: {
                 tags: ['products'],
@@ -27,7 +27,7 @@ export async function updateProduct(app: FastifyInstance) {
                 }),
                 params: z.object({
                     slug: z.string(),
-                    productId: z.string().uuid()
+                    id: z.string().uuid()
                 }),
                 response: {
                     204: z.null()
@@ -35,13 +35,13 @@ export async function updateProduct(app: FastifyInstance) {
             }
         },
         async (request, reply) => {
-            const { slug, productId} = request.params
+            const { slug, id} = request.params
             const userId = await request.getCurrentUserId()
             const {organization, membership} = await request.getUserMembership(slug)
 
             const product = await prisma.product.findUnique({
                 where: {
-                    id: productId
+                    id: id
                 }
             })
 
@@ -57,10 +57,10 @@ export async function updateProduct(app: FastifyInstance) {
             // }
 
             const {name, description, price, price_cost} = request.body
-
+            console.log(name, description, price, price_cost)
             await prisma.product.update({
                 where: {
-                    id: productId
+                    id: id
                 },
                 data: {
                     name,
