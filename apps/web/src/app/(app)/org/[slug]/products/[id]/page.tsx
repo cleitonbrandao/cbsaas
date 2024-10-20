@@ -55,5 +55,3 @@ export default function ProductDetailPage({product} : any) {
         </div>
     )
 }
-
-export default ProductDetailPage;
