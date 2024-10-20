@@ -9,10 +9,11 @@ import { removeProduct } from 'http/remove-product'
 import { UpdateProduct } from 'http/updata-product'
 
 const productSchema = z.object({
+    id: z.string().optional(),
     name: z.string().min(4, {message: 'Pleasw, include at least 4 caracters.'}),
-    description: z.string().optional(),
-    price: z.string().optional(),
-    price_cost: z.string().optional()
+    description: z.string().nullish(),
+    price: z.string().nullish(),
+    price_cost: z.string().nullish()
 })
 
 export type ProductSchema = z.infer<typeof productSchema>
@@ -20,6 +21,7 @@ export type ProductSchema = z.infer<typeof productSchema>
 export async function createProductAction(data: FormData) {
     const currentOrg = getCurrentOrg();
     const result = productSchema.safeParse(Object.fromEntries(data));
+    console.log(result.error)
 
     if(!result.success) {
         const errors = result.error.flatten().fieldErrors
@@ -33,9 +35,9 @@ export async function createProductAction(data: FormData) {
         await CreateProduct({
             org: getCurrentOrg()!,
             name,
-            description,
-            price,
-            price_cost
+            description: description ?? undefined,
+            price: price ?? undefined,
+            price_cost: price_cost ?? undefined
         })
 
         revalidateTag(`${currentOrg}/products`)
@@ -64,44 +66,46 @@ export async function removeProductAction(productId: string) {
     revalidateTag(`${currentOrg}/products`);
 }
 
-// export async function updateProductAction(data: FormData) {
-//     const currentOrg = getCurrentOrg()
+export async function updateProductAction(data: FormData) {
 
-//     const result = productSchema.safeParse(Object.fromEntries(data))
+    const currentOrg = getCurrentOrg()
 
-//     if(!result.success) {
-//         const errors = result.error.flatten().fieldErrors
+    const result = productSchema.safeParse(Object.fromEntries(data))
+    // console.log("dentro do updating", result.error)
 
-//         return {success: false, message: null, errors}
-//     }
+    if(!result.success) {
+        const errors = result.error.flatten().fieldErrors
 
-//     const { productId, name, description, price, price_cost} = result.data
+        return {success: false, message: null, errors}
+    }
 
-//     try{
-//         await UpdateProduct({
-//             org: currentOrg!,
-//             productId,
-//             name,
-//             description,
-//             price,
-//             price_cost
-//         })
+    const { id, name, description, price, price_cost} = result.data
 
-//         revalidateTag(`${currentOrg}/products`);
-//     }catch(err) {
-//         if(err instanceof HTTPError) {
-//             const { message } = await err.response.json()
+    try{
+        await UpdateProduct({
+            org: currentOrg!,
+            id: id!,
+            name,
+            description: description ?? undefined,
+            price: price ?? undefined,
+            price_cost: price_cost ?? undefined
+        })
 
-//             return { success: false, message, errors: null}
-//         }
-//         console.error(err)
+        revalidateTag(`${currentOrg}/products`);
+    }catch(err) {
+        if(err instanceof HTTPError) {
+            const { message } = await err.response.json()
 
-//         return {
-//             success: false,
-//             message: 'Unexpect error, try again in a few minutes.',
-//             errors: null
-//         }
-//     }
+            return { success: false, message, errors: null}
+        }
+        console.error(err)
 
-//     return { success: true, message: 'Successfully saved the organization.', errors: null }
-// }
+        return {
+            success: false,
+            message: 'Unexpect error, try again in a few minutes.',
+            errors: null
+        }
+    }
+
+    return { success: true, message: 'Successfully saved the organization.', errors: null }
+}

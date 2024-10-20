@@ -56,12 +56,12 @@ export function ProductList({currentOrg, products}: ProductListProps) {
     };
 
     return (
-        <div className="grid grid-cols gap-4 p-3">
+        <>
             <Table>
             <TableHeader>
                 <TableRow>
-                    <TableHead>Name</TableHead>
-                    <TableHead>Description</TableHead>
+                    <TableHead className="w-[200px]">Name</TableHead>
+                    <TableHead className="w-[500px]">Description</TableHead>
                     <TableHead>Price</TableHead>
                     <TableHead>Price Cost</TableHead>
                 </TableRow>
@@ -71,7 +71,7 @@ export function ProductList({currentOrg, products}: ProductListProps) {
                     return(
                         <TableRow key={product.id}>
                             <TableCell  className="font-medium">{product.name}</TableCell>
-                            <TableCell className="truncate" >{product.description}</TableCell>
+                            <TableCell className="text-muted-foreground text-sm line-clamp-1" >{product.description}</TableCell>
                             <TableCell >{(Number(product.price)).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})}</TableCell>
                             <TableCell >{(Number(product.price_cost)).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})}</TableCell>
                             <TableCell className="flex flex-row gap-2">
@@ -81,11 +81,12 @@ export function ProductList({currentOrg, products}: ProductListProps) {
                                         Details
                                     </Link>
                                 </Button>
-                                <form action="">
-                                    <Button size="xs" variant="outline">
-                                        Edit <Pencil className="size-3 ml-2"/>
-                                    </Button>
-                                </form>
+                                <Button size="xs" variant="outline" asChild>
+                                    <Link href={`/org/${currentOrg}/products/updated-product/${product.id}`}>
+                                        <Pencil className="size-3 mr-2"/>
+                                        Edit
+                                    </Link>
+                                </Button>
                                 <Button size="xs" variant="destructive" onClick={() => handleDeleteRequest(product.id)}>
                                     Delete <Trash2 className="size-3 ml-2"/>
                                 </Button>
@@ -101,6 +102,6 @@ export function ProductList({currentOrg, products}: ProductListProps) {
                 onClose={() => setIsModalOpen(false)}
                 onConfirm={handleDelete}
             />
-        </div>
+        </>
     )
 }

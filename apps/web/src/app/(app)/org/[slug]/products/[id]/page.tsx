@@ -10,26 +10,26 @@ type ProductDetailPageProps = {
     product: {
         id: string
         name: string
-        description: string | undefined
-        price: string | undefined
-        price_cost: string | undefined
+        description?: string | null
+        price: string
+        price_cost: string
         created_at: string 
     }
 }
 
-export default function ProductDetailPage({ product }: ProductDetailPageProps) {
+export default function ProductDetailPage({product} : any) {
     return (
         <div className="px-2">
             <div className="flex flex-col">
                 <div className="flex flex-col place-content-around h-[200px]">
                     <div className="text-xl font-semibold truncate">{product.name}</div>
-                    <div className="text-sm pl-4 text-muted-foreground line-clamp-3 leading-relaxed">{product.description}</div>
+                    <div className="text-sm pl-4 text-muted-foreground line-clamp-3 leading-relaxed">{product.description ?? "No description available"}</div>
                 </div>
                 <div className="flex flex-wrap justify-end items-end p-2 gap-4 mt-2">
                     <TooltipProvider>
                         <Tooltip>
                             <TooltipTrigger>
-                                <Badge className="border-green-200" variant="outline">{formatCurrency(product.price ?? "0")}</Badge>
+                                <Badge className="border-green-200" variant="outline">{formatCurrency(`${product.price}`)}</Badge>
                             </TooltipTrigger>
                             <TooltipContent>
                                 Price
@@ -39,7 +39,7 @@ export default function ProductDetailPage({ product }: ProductDetailPageProps) {
                     <TooltipProvider>
                         <Tooltip>
                             <TooltipTrigger>
-                                <Badge className="border-red-200" variant="outline">{formatCurrency(product.price_cost ?? "0")}</Badge>
+                                <Badge className="border-red-200" variant="outline">{formatCurrency(`${product.price_cost}`)}</Badge>
                             </TooltipTrigger>
                             <TooltipContent>
                                 Price cost.
