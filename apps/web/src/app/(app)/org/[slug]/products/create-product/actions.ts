@@ -71,14 +71,12 @@ export async function updateProductAction(data: FormData) {
     const currentOrg = getCurrentOrg()
 
     const result = productSchema.safeParse(Object.fromEntries(data))
-    // console.log("dentro do updating", result.error)
 
     if(!result.success) {
         const errors = result.error.flatten().fieldErrors
 
         return {success: false, message: null, errors}
     }
-
     const { id, name, description, price, price_cost} = result.data
 
     try{

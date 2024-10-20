@@ -3,10 +3,11 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { formatCurrency } from "@/utils/formatCurrency";
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
+import React from "react";
 
 dayjs.extend(relativeTime)
 
-type ProductDetailPageProps = {
+interface ProductDetailPageProps {
     product: {
         id: string
         name: string
@@ -54,3 +55,5 @@ export default function ProductDetailPage({product} : any) {
         </div>
     )
 }
+
+export default ProductDetailPage;
