@@ -1,27 +1,28 @@
-import { auth } from "@/http/middlewares/auth";
-import { getUserPermissions } from "@/utils/get-user-permissions";
 import { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
-import { z } from 'zod';
+import {z} from 'zod';
+import { getUserPermissions } from "@/utils/get-user-permissions";
+import { getMemebership } from "../organization/get-membership";
 import { UnauthoraziedError } from "../_erros/unauthorized-error";
 import { prisma } from "@/ilb/prisma";
+import { auth } from "@/http/middlewares/auth";
 
-export async function getProducts(app: FastifyInstance) {
+export async function getServices(app: FastifyInstance) {
     app.withTypeProvider<ZodTypeProvider>()
     .register(auth)
     .get(
-        '/organizations/:slug/products',
+        '/organizaitons/:slug/services',
         {
             schema: {
-                tags: ['products'],
-                summary: 'Get all organization products',
+                tags: ['services'],
+                summary: 'Get all organization services',
                 security: [{ bearerAuth: []}],
                 params: z.object({
                     slug: z.string()
                 }),
                 response: {
                     200: z.object({
-                        products: z.array(
+                        services: z.array(
                             z.object({
                                 id: z.string().uuid(),
                                 name: z.string(),
@@ -39,14 +40,14 @@ export async function getProducts(app: FastifyInstance) {
             const {slug} = request.params
             const userId = await request.getCurrentUserId()
             const {organization, membership} = await request.getUserMembership(slug)
-
+ 
             // const {cannot} = getUserPermissions(userId, membership.role)
 
-            // if(cannot('get', 'Product')){
-            //     throw new UnauthoraziedError(`You're not allowed to see organization products`);
+            // if(cannot('get', 'Service')) {
+            //     throw new UnauthoraziedError(`You're not allowed see this services.`)
             // }
 
-            const products = await prisma.product.findMany({
+            const services = await prisma.service.findMany({
                 select: {
                     id: true,
                     name: true,
@@ -63,7 +64,7 @@ export async function getProducts(app: FastifyInstance) {
                 }
             })
 
-            return reply.send({ products })
+            return reply.send({ services })
         }
     )
 }
