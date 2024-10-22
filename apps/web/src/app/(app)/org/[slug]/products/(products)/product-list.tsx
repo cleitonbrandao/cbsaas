@@ -12,18 +12,6 @@ import ConfirmDeleteModal from "@/components/modal/ConfirmDeleteModal";
 
 dayjs.extend(relativeTime)
 
-
-
-async function handleDelete(event: FormEvent<HTMLFormElement>, productId: string) {
-    event.preventDefault()
-
-    const confirmed = window.confirm('teste do confirme delete')
-
-    if(confirmed) {
-        await removeProductAction(productId)
-    }
-}
-
 interface Product {
     id: string
     name: string
