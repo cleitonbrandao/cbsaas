@@ -8,7 +8,7 @@ import { UnauthoraziedError } from "../_erros/unauthorized-error";
 import { prisma } from "@/ilb/prisma";
 import { parseCurrency } from "@/utils/parse-currency-monetary";
 
-export default async function createService(app: FastifyInstance) {
+export async function createService(app: FastifyInstance) {
     app.withTypeProvider<ZodTypeProvider>()
     .register(auth)
     .post(

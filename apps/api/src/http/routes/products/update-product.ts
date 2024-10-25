@@ -39,6 +39,12 @@ export async function updateProduct(app: FastifyInstance) {
             const userId = await request.getCurrentUserId()
             const {organization, membership} = await request.getUserMembership(slug)
 
+            // const {cannot} = getUserPermissions(userId, membership.role)
+
+            // if(cannot('update', 'Product')) {
+            //     throw new UnauthoraziedError(`You're not allowed update this product.`)
+            // }
+
             const product = await prisma.product.findUnique({
                 where: {
                     id: id

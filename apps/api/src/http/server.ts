@@ -44,13 +44,15 @@ import { getProducts } from './routes/products/get-products';
 import { deleteProduct } from './routes/products/delete-product';
 import { updateProduct } from './routes/products/update-product';
 import { getProduct } from './routes/products/get-product';
-import createService from './routes/services/create-service';
+import {createService} from './routes/services/create-service';
 import { getService } from './routes/services/get-service';
 import { getServices } from './routes/services/get-services';
 import { updateService } from './routes/services/update-service';
 import { deleteService } from './routes/services/delete-service';
 import { createPackage } from './routes/packages/create-package';
 import { getPackages } from './routes/packages/get-packages';
+import { getPackage } from './routes/packages/get-package';
+import { updatedPackage } from './routes/packages/updated-package';
 
 const app = fastify().withTypeProvider<ZodTypeProvider>();
 
@@ -142,6 +144,8 @@ app.register(deleteService);
 
 app.register(createPackage);
 app.register(getPackages);
+app.register(getPackage);
+app.register(updatedPackage);
 
 app.listen({ port: env.PORT, host: '0.0.0.0' }).then(() => {
   console.log('HTTP server running!');
