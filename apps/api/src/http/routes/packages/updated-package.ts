@@ -32,7 +32,7 @@ export async function updatedPackage(app: FastifyInstance) {
                         z.object({
                             productId: z.string().uuid()
                         })
-                    ),
+                    ).optional(),
                     addServices: z.array(
                         z.object({
                             serviceId: z.string().uuid()

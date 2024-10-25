@@ -1,6 +1,7 @@
 import { Button } from "./ui/button";
 import { ability, getCurrentOrg } from "@/auth/auth";
 import { NavLink } from "./nav-link";
+import { ProductSwhtcher } from "./product-switcher";
 
 export async function Tabs() {
     const currentOrg = getCurrentOrg()
@@ -48,6 +49,8 @@ export async function Tabs() {
                     </NavLink>
                 </Button>
             {/* )} */}
+
+            <ProductSwhtcher currentOrgSlug={currentOrg}/>
             </nav>
         </div>
     )
