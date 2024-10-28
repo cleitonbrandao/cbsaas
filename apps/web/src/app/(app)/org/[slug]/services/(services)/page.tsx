@@ -10,7 +10,6 @@ export default async function Services() {
     const currentOrg = getCurrentOrg()
     const permissions = await ability()
     const {services} = await GetServices(currentOrg!)
-
     return(
         <div className="space-y-4">
 
@@ -19,7 +18,7 @@ export default async function Services() {
 
                 {permissions?.can('create', 'Project') && (
                     <Button size="sm" asChild>
-                        <Link href={`/org/${currentOrg}/products/create-product`}>
+                        <Link href={`/org/${currentOrg}/services/create-service`}>
                             <Plus className="size-4 mr-2"/>
                             Create service
                         </Link>

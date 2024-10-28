@@ -5,6 +5,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { ArrowRight, Pencil, Trash2 } from "lucide-react"
 import Link from "next/link"
 import { useState } from "react"
+import { removeServiceAction } from "../create-service/action"
 
 interface Service {
     id: string
@@ -30,7 +31,7 @@ export function ServiceList({currentOrg, services}: ServiceListProps) {
     }
     const handleDelete = async () => {
         if(serviceIdToDelete) {
-            // await removeServiceAction(serviceIdToDelete)
+            await removeServiceAction(serviceIdToDelete)
             setIsModalOpen(false)
             setServiceIdToDelete(null)
         }
@@ -62,8 +63,7 @@ export function ServiceList({currentOrg, services}: ServiceListProps) {
                                     </Link>
                                 </Button>
                                 <Button size="xs" variant="outline" asChild>
-                                    <Link href="">
-                                    {/* <Link href={`/org/${currentOrg}/services/updated-service/${service.id}`}> */}
+                                    <Link href={`/org/${currentOrg}/services/updated-service/${service.id}`}>
                                         <Pencil className="size-3 mr-2"/>
                                         Edit
                                     </Link>

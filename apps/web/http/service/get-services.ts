@@ -12,7 +12,6 @@ interface GetServiceResponse {
 }
 
 export async function GetServices(org: string) {
-    console.log("dentro da função getservices")
     const result = await api.get(`organizations/${org}/services`).json<GetServiceResponse>()
 
     return result

@@ -63,7 +63,7 @@ export async function getServices(app: FastifyInstance) {
                     created_at: 'desc'
                 }
             })
-
+            
             return reply.send({ services })
         }
     )

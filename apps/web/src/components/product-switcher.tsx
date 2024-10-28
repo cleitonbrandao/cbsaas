@@ -1,28 +1,36 @@
 'use client'
-import { useQuery } from "@tanstack/react-query";
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuGroup, DropdownMenuLabel, DropdownMenuItem, DropdownMenuSeparator } from "./ui/dropdown-menu";
-import { useParams, useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import { Skeleton } from "./ui/skeleton";
-import { getProducts } from "http/get-products";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
-import { ChevronsUpDown, CirclePlusIcon, Loader2 } from "lucide-react"
-import { NavLink } from "./nav-link";
-import { Button } from "./ui/button";
-import { getCurrentOrg } from "@/auth/auth";
+import { ChevronsUpDown, CirclePlusIcon, Loader2, Plus } from "lucide-react"
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { Button } from "./ui/button";
 
 export function ProductSwhtcher({ currentOrgSlug }: { currentOrgSlug?: string }) {
     // const currentOrg = getCurrentOrg()
     const { slug: orgSlugFromParams, project: projectSlug } = useParams();
     const router = useRouter();
+    const pathname = usePathname();
     const orgSlug = currentOrgSlug || orgSlugFromParams;
+    const [isLoading, setIsLoading] = useState(false)
+    const [selectedItem, setSelectedItem] = useState("")
+    const [createDestine, setCreateDestine] = useState("")
+    useEffect(() => {
+        // urlNow = 
+        // Define o item selecionado com base na URL atual
+        if (pathname.includes("/products")) {setSelectedItem("Products"); setCreateDestine("product");}
+        else if (pathname.includes("/services")) {setSelectedItem("Services"); setCreateDestine("service");}
+        else if (pathname.includes("/packages")) {setSelectedItem("Packages"); setCreateDestine("package");}
+        else setSelectedItem("");
+    }, [pathname]);
 
-    const currentSwitch = "";
-
-    const handleNavigate = (path: string) => {
+    const handleNavigate = async (path: string, item: string) => {
+        setIsLoading(true);
+        setSelectedItem(item);
         router.push(path); // Navegação programática
-    }
-
+        setIsLoading(false);
+    };
     return (
         <DropdownMenu>
             <DropdownMenuTrigger 
@@ -34,15 +42,7 @@ export function ProductSwhtcher({ currentOrgSlug }: { currentOrgSlug?: string })
                     </>
                 ) : (
                     <>
-                    {currentSwitch ? (
-                        <>
-                            <span className="truncate text-left">Products</span>
-                            <span className="truncate text-left">Services</span>
-                            <span className="truncate text-left">Packages</span>
-                        </>
-                    ) : (
-                        <span className="text-muted-foreground">Select</span>
-                    )}
+                        <span className="truncate text-left">{selectedItem || "Select product"}</span>
                     </>
                 )}
                 {isLoading ? (
@@ -53,26 +53,43 @@ export function ProductSwhtcher({ currentOrgSlug }: { currentOrgSlug?: string })
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" alignOffset={-16} className="w-[200px]">
                 <DropdownMenuGroup>
-                    <DropdownMenuLabel>Items</DropdownMenuLabel>
-                    {/* {data && data.projects.map(project => {
-                        return ( */}
-                            <DropdownMenuItem asChild onClick={() => handleNavigate(`/org/${orgSlug}/products`)}>
-                                <span className="line-clamp-1">Products</span>
-                            </DropdownMenuItem>
-                    
-                    <DropdownMenuItem asChild onClick={() => handleNavigate(`/org/${orgSlug}/services`)}>
-                        <span className="line-clamp-1">Services</span>
-                    </DropdownMenuItem>
-                    
-                    <DropdownMenuItem asChild onClick={() => handleNavigate(`/org/${orgSlug}/packages`)}>
-                        <span className="line-clamp-1">Packages</span>
-                    </DropdownMenuItem>
-                        {/* )
-                    })} */}
+                    <div className="flex flex-row justify-between items-center">
+                        <DropdownMenuItem className="focus:bg-gradient-to-r focus:from-accent focus:to-stone-950 focus:bg-inherit" asChild onClick={() => handleNavigate(`/org/${orgSlug}/products`, "Products")}>
+                                <span className={`line-clamp-1 ${selectedItem === "Products" ? "font-semibold" : "text-muted-foreground"} w-full`}>Products</span>
+                        </DropdownMenuItem>
+                        <Button className="flex flex-row p-1" size="xs" variant="outline" asChild>
+                            <Link href={`/org/${orgSlug}/products/create-product`} prefetch={false}>
+                                <Plus className="size-4 mr-2"/>
+                                new
+                            </Link>
+                        </Button>
+                    </div>
+                    <div className="flex flex-row justify-between items-center">
+                        <DropdownMenuItem className="focus:bg-gradient-to-r focus:from-accent focus:to-stone-950 focus:bg-inherit" asChild onClick={() => handleNavigate(`/org/${orgSlug}/services`, "Services")}>
+                                <span className={`line-clamp-1 ${selectedItem === "Services" ? "font-semibold" : "text-muted-foreground"} w-full`}>Services</span>
+                        </DropdownMenuItem>
+                        <Button className="flex flex-row p-1" size="xs" variant="outline" asChild>
+                            <Link href={`/org/${orgSlug}/services/create-service`} prefetch={false}>
+                                <Plus className="size-4 mr-2"/>
+                                new
+                            </Link>
+                        </Button>
+                    </div>
+                    <div className="flex flex-row justify-between items-center">
+                        <DropdownMenuItem className="focus:bg-gradient-to-r focus:from-accent focus:to-stone-950 focus:bg-inherit" asChild onClick={() => handleNavigate(`/org/${orgSlug}/packages`, "Packages")}>
+                                <span className={`line-clamp-1 ${selectedItem === "Pakages" ? "font-semibold" : "text-muted-foreground"} w-full`}>Packages</span>
+                        </DropdownMenuItem>
+                        <Button className="flex flex-row p-1" size="xs" variant="outline" asChild>
+                            <Link href={`/org/${orgSlug}/packages/create-package`} prefetch={false}>
+                                <Plus className="size-4 mr-2"/>
+                                new
+                            </Link>
+                        </Button>
+                    </div>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
-                    <Link href={`/org/${orgSlug}/create-project`}>
+                    <Link href={`${pathname}/create-${createDestine}`}>
                         <CirclePlusIcon className="mr-2 size-4"/>
                         Create new
                     </Link>
