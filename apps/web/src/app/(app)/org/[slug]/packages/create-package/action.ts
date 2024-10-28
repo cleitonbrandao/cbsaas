@@ -12,19 +12,17 @@ import { UpdatedPackage } from 'http/packages/updated-package'
 
 const packageSchema = z.object({
     id: z.string().optional(),
-    name: z.string().min(4, {message: 'Pleasw, include at least 4 caracters.'}),
+    name: z.string().min(4, { message: 'Please, include at least 4 characters.' }),
     description: z.string().nullish(),
-    price: z.string().refine(value => !isNaN(parseFloat(value)), {
-        message: "Price must be a valid number"
-    }).nullish(),
+    price: z.string().nullish(),
     items: z.array(
         z.object({
             productIds: z.array(z.string().uuid()).optional(),
-            serviceIds: z.array(z.string().uuid()).optional()
-        }).refine(data => (data.productIds?.length || 0) > 0 || (data.serviceIds?.length || 0) > 0, {
-            message: 'At least one product or service must be added to the package'
+            serviceIds: z.array(z.string().uuid()).optional(),
         })
-    )
+    ).default([]).refine(items => items.length > 0, {
+        message: 'At least one product or service must be added to the package.',
+    })
 })
 
 const packageUpdatedSchema = z.object({
@@ -62,10 +60,10 @@ export type PackageSchema = z.infer<typeof packageSchema>
 export async function createPackageAction(data: FormData) {
     const currentOrg = getCurrentOrg();
     const result = packageSchema.safeParse(Object.fromEntries(data));
-    console.log(result.error)
 
     if(!result.success) {
         const errors = result.error.flatten().fieldErrors
+        console.log(errors)
 
         return {success: false, message: null, errors} 
     }
