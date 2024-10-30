@@ -1,7 +1,7 @@
 import { ability } from "@/auth/auth";
 import { redirect } from "next/navigation";
 import { PackageForm } from "./package-form";
-import SearchProducts from "@/components/search/search-product";
+import SearchProductsPage from "@/components/search/search-product";
 
 export default async function Createackage() {
     const permissions = await ability()
@@ -11,8 +11,10 @@ export default async function Createackage() {
     }
     return (
         <div className="space-y-4">
-            <h1  className="text-2xl font-bold">Create Package</h1>
-            <SearchProducts />
+            <div className="flex flex-row justify-between">
+                <h1  className="text-2xl font-bold">Create Package</h1>
+                <SearchProductsPage />
+            </div>
             <PackageForm />
         </div>
     )

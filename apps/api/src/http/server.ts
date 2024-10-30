@@ -53,6 +53,7 @@ import { createPackage } from './routes/packages/create-package';
 import { getPackages } from './routes/packages/get-packages';
 import { getPackage } from './routes/packages/get-package';
 import { updatedPackage } from './routes/packages/updated-package';
+import { searchProducts } from './routes/searchs/search-products';
 
 const app = fastify().withTypeProvider<ZodTypeProvider>();
 
@@ -146,6 +147,8 @@ app.register(createPackage);
 app.register(getPackages);
 app.register(getPackage);
 app.register(updatedPackage);
+
+app.register(searchProducts);
 
 app.listen({ port: env.PORT, host: '0.0.0.0' }).then(() => {
   console.log('HTTP server running!');
