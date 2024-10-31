@@ -51,8 +51,9 @@ export default function SearchProductsPage() {
                 <>
                     {activeSearch.products.map((product) => (
                         <div className="flex flex-row justify-between">
-                            <span key={product.id} className="w-full rounded-sm p-2 text-sm hover:bg-accent">{product.name}
+                            <span key={product.id} className="relative w-full rounded-sm p-2 text-sm hover:bg-accent">{product.name}
                                 <Badge className="text-muted-foreground bg-accent text-[9px] ml-1 h-[16px]" variant="outline">product</Badge>
+                                <Button className="absolute slide-in-from-bottom-1/2 mr-1 right-0 h-[16px] text-sm text-muted-foreground" variant="outline" size="sm">add</Button>
                             </span>
                         </div>
                     ))}
@@ -62,9 +63,10 @@ export default function SearchProductsPage() {
             {activeSearch.services.length > 0 && (
                 <>
                     {activeSearch.services.map((service) => (
-                        <span key={service.id} className="w-full rounded-sm p-2 text-sm hover:bg-accent">
+                        <span key={service.id} className="relative w-full rounded-sm p-2 text-sm hover:bg-accent">
                             {service.name}
                             <Badge className="text-muted-foreground bg-accent text-[9px] ml-1 h-[16px]" variant="outline">service</Badge>
+                            <Button className="absolute slide-in-from-bottom-1/2 mr-1 right-0 h-[16px] text-sm text-muted-foreground" variant="outline" size="sm">add</Button>
                         </span>
                     ))}
                 </>
@@ -73,9 +75,10 @@ export default function SearchProductsPage() {
             {activeSearch.packages.length > 0 && (
                 <>
                     {activeSearch.packages.map((packageItem) => (
-                        <span key={packageItem.id} className="w-full rounded-sm p-2 text-sm hover:bg-accent">
+                        <span key={packageItem.id} className="relative w-full rounded-sm p-2 text-sm hover:bg-accent">
                             {packageItem.name}
                             <Badge className="text-muted-foreground text-[9px] ml-1 h-[16px]" variant="outline">package</Badge>
+                            <Button className="absolute slide-in-from-bottom-1/2 mr-1 right-0 h-[16px] text-sm text-muted-foreground" variant="outline" size="sm">add</Button>
                         </span>
                     ))}
                 </>

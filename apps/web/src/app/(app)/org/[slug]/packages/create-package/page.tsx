@@ -3,12 +3,15 @@ import { redirect } from "next/navigation";
 import { PackageForm } from "./package-form";
 import SearchProductsPage from "@/components/search/search-product";
 
+
+
 export default async function Createackage() {
     const permissions = await ability()
 
     if(permissions?.cannot('create', 'Project')) {
         redirect('/')
     }
+    
     return (
         <div className="space-y-4">
             <div className="flex flex-row justify-between">
