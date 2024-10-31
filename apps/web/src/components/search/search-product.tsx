@@ -46,13 +46,13 @@ export default function SearchProductsPage() {
                 <input type="search" onChange={(event) => handelSearch(event)} placeholder='Add products' className='w-full h-5 p-4 rounded-full bg-accent' />
             </div>
             {activeSearch && (
-        <div className='flex flex-col w-full rounded-sm absolute top-10 '>
+        <div className='flex flex-col bg-zinc-50 dark:bg-zinc-900 w-full rounded-sm absolute top-10 '>
             {activeSearch.products.length > 0 && (
                 <>
                     {activeSearch.products.map((product) => (
                         <div className="flex flex-row justify-between">
                             <span key={product.id} className="w-full rounded-sm p-2 text-sm hover:bg-accent">{product.name}
-                                <Badge className="text-muted-foreground text-[9px] ml-1 h-[16px]" variant="outline">product</Badge>
+                                <Badge className="text-muted-foreground bg-accent text-[9px] ml-1 h-[16px]" variant="outline">product</Badge>
                             </span>
                         </div>
                     ))}
@@ -64,7 +64,7 @@ export default function SearchProductsPage() {
                     {activeSearch.services.map((service) => (
                         <span key={service.id} className="w-full rounded-sm p-2 text-sm hover:bg-accent">
                             {service.name}
-                            <Badge className="text-muted-foreground text-[9px] ml-1 h-[16px]" variant="outline">service</Badge>
+                            <Badge className="text-muted-foreground bg-accent text-[9px] ml-1 h-[16px]" variant="outline">service</Badge>
                         </span>
                     ))}
                 </>
