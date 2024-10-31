@@ -54,7 +54,7 @@ export function ProductSwhtcher({ currentOrgSlug }: { currentOrgSlug?: string })
             <DropdownMenuContent align="end" alignOffset={-16} className="w-[200px]">
                 <DropdownMenuGroup>
                     <div className="flex flex-row justify-between items-center">
-                        <DropdownMenuItem className="focus:bg-gradient-to-r focus:from-accent focus:to-stone-950 focus:bg-inherit" asChild onClick={() => handleNavigate(`/org/${orgSlug}/products`, "Products")}>
+                        <DropdownMenuItem className="focus:bg-gradient-to-r focus:from-accent focus:bg-inherit" asChild onClick={() => handleNavigate(`/org/${orgSlug}/products`, "Products")}>
                                 <span className={`line-clamp-1 ${selectedItem === "Products" ? "font-semibold" : "text-muted-foreground"} w-full`}>Products</span>
                         </DropdownMenuItem>
                         <Button className="flex flex-row p-1" size="xs" variant="outline" asChild>
@@ -65,7 +65,7 @@ export function ProductSwhtcher({ currentOrgSlug }: { currentOrgSlug?: string })
                         </Button>
                     </div>
                     <div className="flex flex-row justify-between items-center">
-                        <DropdownMenuItem className="focus:bg-gradient-to-r focus:from-accent focus:to-stone-950 focus:bg-inherit" asChild onClick={() => handleNavigate(`/org/${orgSlug}/services`, "Services")}>
+                        <DropdownMenuItem className="focus:bg-gradient-to-r focus:from-accent focus:bg-inherit" asChild onClick={() => handleNavigate(`/org/${orgSlug}/services`, "Services")}>
                                 <span className={`line-clamp-1 ${selectedItem === "Services" ? "font-semibold" : "text-muted-foreground"} w-full`}>Services</span>
                         </DropdownMenuItem>
                         <Button className="flex flex-row p-1" size="xs" variant="outline" asChild>
@@ -76,7 +76,7 @@ export function ProductSwhtcher({ currentOrgSlug }: { currentOrgSlug?: string })
                         </Button>
                     </div>
                     <div className="flex flex-row justify-between items-center">
-                        <DropdownMenuItem className="focus:bg-gradient-to-r focus:from-accent focus:to-stone-950 focus:bg-inherit" asChild onClick={() => handleNavigate(`/org/${orgSlug}/packages`, "Packages")}>
+                        <DropdownMenuItem className="focus:bg-gradient-to-r focus:from-accent focus:bg-inherit" asChild onClick={() => handleNavigate(`/org/${orgSlug}/packages`, "Packages")}>
                                 <span className={`line-clamp-1 ${selectedItem === "Pakages" ? "font-semibold" : "text-muted-foreground"} w-full`}>Packages</span>
                         </DropdownMenuItem>
                         <Button className="flex flex-row p-1" size="xs" variant="outline" asChild>

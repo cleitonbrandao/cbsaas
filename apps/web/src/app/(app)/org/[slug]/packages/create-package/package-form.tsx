@@ -136,7 +136,7 @@ export function PackageForm({
                                 <Badge className="flex border-green-200 hover:bg-green-300 justify-center text-muted-foreground hover:text-green-900 text-xs" variant="outline">R$ 5.000,00</Badge>
                                 <Badge className="min-w-[100px] max-h-[25px] border-red-200 hover:bg-red-300 justify-center text-muted-foreground hover:text-red-900 text-xs" variant="outline">R$ 1500,00</Badge>
                             </div>
-                            <Badge className="absolute bottom-0 right-0 justify-center bg-gray-700 text-muted-foreground text-xs m-2" variant="outline">Produto</Badge>
+                            <Badge className="absolute bottom-0 right-0 justify-center bg-acccent text-muted-foreground text-xs m-2" variant="outline">Produto</Badge>
                         </CardFooter>
                     </Card>
                 </div>

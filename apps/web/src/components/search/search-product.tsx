@@ -43,15 +43,15 @@ export default function SearchProductsPage() {
   return (
         <form className='w-[300px] relative'>
             <div className='relative'>
-                <input type="search" onChange={(event) => handelSearch(event)} placeholder='Add products' className='w-full h-5 p-4 rounded-full' />
+                <input type="search" onChange={(event) => handelSearch(event)} placeholder='Add products' className='w-full h-5 p-4 rounded-full bg-accent' />
             </div>
             {activeSearch && (
-        <div className='flex flex-col w-full rounded-sm absolute top-10 bg-neutral-900'>
+        <div className='flex flex-col w-full rounded-sm absolute top-10 '>
             {activeSearch.products.length > 0 && (
                 <>
                     {activeSearch.products.map((product) => (
                         <div className="flex flex-row justify-between">
-                            <span key={product.id} className="w-full rounded-sm p-2 text-sm hover:bg-neutral-700">{product.name}
+                            <span key={product.id} className="w-full rounded-sm p-2 text-sm hover:bg-accent">{product.name}
                                 <Badge className="text-muted-foreground text-[9px] ml-1 h-[16px]" variant="outline">product</Badge>
                             </span>
                         </div>
@@ -62,7 +62,7 @@ export default function SearchProductsPage() {
             {activeSearch.services.length > 0 && (
                 <>
                     {activeSearch.services.map((service) => (
-                        <span key={service.id} className="w-full rounded-sm p-2 text-sm hover:bg-neutral-700">
+                        <span key={service.id} className="w-full rounded-sm p-2 text-sm hover:bg-accent">
                             {service.name}
                             <Badge className="text-muted-foreground text-[9px] ml-1 h-[16px]" variant="outline">service</Badge>
                         </span>
@@ -73,7 +73,7 @@ export default function SearchProductsPage() {
             {activeSearch.packages.length > 0 && (
                 <>
                     {activeSearch.packages.map((packageItem) => (
-                        <span key={packageItem.id} className="w-full rounded-sm p-2 text-sm hover:bg-neutral-700">
+                        <span key={packageItem.id} className="w-full rounded-sm p-2 text-sm hover:bg-accent">
                             {packageItem.name}
                             <Badge className="text-muted-foreground text-[9px] ml-1 h-[16px]" variant="outline">package</Badge>
                         </span>
