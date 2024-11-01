@@ -6,10 +6,16 @@ import { Button } from '../ui/button'
 import { useState } from 'react'
 import { searchProdutAction } from './action'
 import { Badge } from '../ui/badge'
- 
+import { useSelectedItems } from "@/contexts/SelectedItemsContext";
+
 interface SearchResultItems {
     id: string
     name: string
+    description: string | null
+    price: string
+    price_cost: string | null
+    created_at: string
+    type: "product" | "service" | "package"
 }
 
 interface SearchProductsResponse {
@@ -19,6 +25,7 @@ interface SearchProductsResponse {
 }
 
 export default function SearchProductsPage() {
+  const { addItem } = useSelectedItems();
   const [activeSearch, setActiveSearch] = useState<SearchProductsResponse | null>(null)
   const [query, setQuery] = useState<string | undefined>()
  
@@ -31,13 +38,18 @@ export default function SearchProductsPage() {
         return
     }
 
-    const result = await searchProdutAction(value) as SearchProductsResponse
+    const result = await searchProdutAction(value) as SearchProductsResponse;
 
-    if (result && typeof result !== 'string') {
-        setActiveSearch(result)
-      } else {
-        setActiveSearch(null) // Define como `null` se não houver resultados
-      }
+    if (result) {
+        const updatedResult: SearchProductsResponse = {
+            products: result.products.map(item => ({ ...item, type: "product" })),
+            services: result.services.map(item => ({ ...item, type: "service" })),
+            packages: result.packages.map(item => ({ ...item, type: "package" })),
+        };
+        setActiveSearch(updatedResult);
+    } else {
+        setActiveSearch(null);
+    }
   }
 
   return (
@@ -50,10 +62,11 @@ export default function SearchProductsPage() {
             {activeSearch.products.length > 0 && (
                 <>
                     {activeSearch.products.map((product) => (
-                        <div className="flex flex-row justify-between">
-                            <span key={product.id} className="relative w-full rounded-sm p-2 text-sm hover:bg-accent">{product.name}
-                                <Badge className="text-muted-foreground bg-accent text-[9px] ml-1 h-[16px]" variant="outline">product</Badge>
-                                <Button className="absolute slide-in-from-bottom-1/2 mr-1 right-0 h-[16px] text-sm text-muted-foreground" variant="outline" size="sm">add</Button>
+                        <div key={product.id} className="flex flex-row justify-between">
+                            <span className="relative w-full rounded-sm p-2 text-sm hover:bg-accent">{product.name}
+                                <Badge className="text-muted-foreground bg-accent text-[9px] ml-1 h-[16px]" variant="outline">{product.type}</Badge>
+                                <Button onClick={(event) => {event.preventDefault(); addItem(product); }}
+                                    className="absolute slide-in-from-bottom-1/2 mr-1 right-0 h-[16px] text-sm text-muted-foreground" variant="outline" size="sm">add</Button>
                             </span>
                         </div>
                     ))}
@@ -63,11 +76,14 @@ export default function SearchProductsPage() {
             {activeSearch.services.length > 0 && (
                 <>
                     {activeSearch.services.map((service) => (
-                        <span key={service.id} className="relative w-full rounded-sm p-2 text-sm hover:bg-accent">
-                            {service.name}
-                            <Badge className="text-muted-foreground bg-accent text-[9px] ml-1 h-[16px]" variant="outline">service</Badge>
-                            <Button className="absolute slide-in-from-bottom-1/2 mr-1 right-0 h-[16px] text-sm text-muted-foreground" variant="outline" size="sm">add</Button>
-                        </span>
+                        <div key={service.id} className="flex flex-row justify-between">
+                            <span className="relative w-full rounded-sm p-2 text-sm hover:bg-accent">
+                                {service.name}
+                                <Badge className="text-muted-foreground bg-accent text-[9px] ml-1 h-[16px]" variant="outline">{service.type}</Badge>
+                                <Button onClick={(event) => {event.preventDefault(); addItem(service); }}
+                                    className="absolute slide-in-from-bottom-1/2 mr-1 right-0 h-[16px] text-sm text-muted-foreground" variant="outline" size="sm">add</Button>
+                            </span>
+                        </div>
                     ))}
                 </>
             )}
@@ -75,11 +91,14 @@ export default function SearchProductsPage() {
             {activeSearch.packages.length > 0 && (
                 <>
                     {activeSearch.packages.map((packageItem) => (
-                        <span key={packageItem.id} className="relative w-full rounded-sm p-2 text-sm hover:bg-accent">
-                            {packageItem.name}
-                            <Badge className="text-muted-foreground text-[9px] ml-1 h-[16px]" variant="outline">package</Badge>
-                            <Button className="absolute slide-in-from-bottom-1/2 mr-1 right-0 h-[16px] text-sm text-muted-foreground" variant="outline" size="sm">add</Button>
-                        </span>
+                        <div key={packageItem.id} className="flex flex-row justify-between">
+                            <span key={packageItem.id} className="relative w-full rounded-sm p-2 text-sm hover:bg-accent">
+                                {packageItem.name}
+                                <Badge className="text-muted-foreground text-[9px] ml-1 h-[16px]" variant="outline">{packageItem.type}</Badge>
+                                <Button onClick={(event) => {event.preventDefault(); addItem(packageItem); }}
+                                    className="absolute slide-in-from-bottom-1/2 mr-1 right-0 h-[16px] text-sm text-muted-foreground" variant="outline" size="sm">add</Button>
+                            </span>
+                        </div>
                     ))}
                 </>
             )}

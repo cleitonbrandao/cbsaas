@@ -13,6 +13,7 @@ import { Monetary } from "@/components/Inputs/InputMonetary/Monetary";
 import { createPackageAction, PackageSchema, updatePackageAction } from "./action";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { useSelectedItems } from "@/contexts/SelectedItemsContext";
 
 interface PackageFormProps {
     isUpdating?: boolean
@@ -27,7 +28,8 @@ export function PackageForm({
     const {slug: org} = useParams<{slug: string}>()
 
     const [{success, message, errors}, handleSubmit, isPending] = useFormState(formAction)
-
+    const { selectedItems } = useSelectedItems();
+    console.log(selectedItems)
     return (
         <form onSubmit={handleSubmit} className="space-y-4">
             {success === false && message && (
@@ -105,26 +107,37 @@ export function PackageForm({
             )}
             <div className="flex flex-col items-center gap-2">
                 <p className="font-bold">Items package</p>
-                <div className="flex flex-row gap-3 rounded-sm border p-3">
-                    <div className="space-y-1">
-                        <Card>
-                            <CardHeader>
-                                <CardTitle className="text-sm">Album</CardTitle>
-                                <CardDescription className="line-clamp-3">Descrição de produto que pode ser muito grande, porém vamos fazer o teste para ver se funciona</CardDescription>
-                            </CardHeader>
-                            <CardContent>
-
-                            </CardContent>
-                            <CardFooter className="relative">
-                                <div className="flex flex-row gap-3">
-                                    <Badge className="flex border-green-200 hover:bg-green-300 justify-center text-muted-foreground hover:text-green-900 text-xs" variant="outline">R$ 3.000,00</Badge>
-                                    <Badge className="min-w-[100px] max-h-[25px] border-red-200 hover:bg-red-300 justify-center text-muted-foreground hover:text-red-900 text-xs" variant="outline">R$ 2.000,00</Badge>
-                                </div>
-                                <Badge className="absolute bottom-0 right-0 justify-center bg-accent text-muted-foreground text-xs m-2" variant="outline">Serviço</Badge>
-                            </CardFooter>
-                        </Card>
+                {selectedItems.length > 0 && (
+                    <div className="flex flex-row flex-wrap gap-2 w-full rounded-sm border p-3">
+                        {selectedItems.length > 0 && (
+                            <>
+                                {selectedItems.map((item, index) => (
+                                    <Card className="w-[350px]" key={`${item.name}-${index}`}>
+                                        <input type="hidden" name="items[]" value={item.id} />
+                                        <CardHeader>
+                                            <CardTitle className="text-sm">{item.name}</CardTitle>
+                                            <CardDescription className="line-clamp-3">{item.description?.trim() ? item.description : "No description."}</CardDescription>
+                                        </CardHeader>
+                                        <CardContent>
+                                        </CardContent>
+                                        <CardFooter className="relative">
+                                            <div className="flex flex-row gap-3">
+                                                <Badge className="flex border-green-200 hover:bg-green-300 justify-center text-muted-foreground hover:text-green-900 text-xs" variant="outline">{item.price}</Badge>
+                                                {item.price_cost && (
+                                                    <Badge className="min-w-[100px] max-h-[25px] border-red-200 hover:bg-red-300 justify-center text-muted-foreground hover:text-red-900 text-xs" variant="outline">{item.price_cost}</Badge>
+                                                )}
+                                            </div>
+                                            <Badge className="absolute bottom-0 right-0 justify-center bg-accent text-muted-foreground text-xs m-2" variant="outline">{item.type}</Badge>
+                                        </CardFooter>
+                                    </Card>
+                                ))}
+                            </>
+                        )}
                     </div>
-                    <div className="space-y-1">
+                )}
+
+
+                    {/* <div className="space-y-1">
                         <Card>
                             <CardHeader>
                                 <CardTitle className="text-sm">Book</CardTitle>
@@ -141,8 +154,7 @@ export function PackageForm({
                                 <Badge className="absolute bottom-0 right-0 justify-center bg-acccent text-muted-foreground text-xs m-2" variant="outline">Produto</Badge>
                             </CardFooter>
                         </Card>
-                    </div>
-                </div>
+                    </div> */}
             </div>
             <Button type="submit" className="w-full" disabled={isPending}>
                 {isPending ? (

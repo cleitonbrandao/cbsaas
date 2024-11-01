@@ -26,18 +26,29 @@ export async function searchProducts(app: FastifyInstance) {
                             z.object({
                                 id: z.string().uuid(),
                                 name: z.string(),
+                                description: z.string().nullable(),
+                                price: z.number(),
+                                price_cost: z.number(),
+                                created_at: z.date()
                             })
                         ),
                         services: z.array(
                             z.object({
                                 id: z.string().uuid(),
                                 name: z.string(),
+                                description: z.string().nullable(),
+                                price: z.number().nullish(),
+                                price_cost: z.number().nullish(),
+                                created_at: z.date()
                             })
                         ),
                         packages: z.array(
                             z.object({
                                 id: z.string().uuid(),
                                 name: z.string(),
+                                description: z.string().nullable(),
+                                price: z.number().nullish(),
+                                created_at: z.date()
                             })
                         )
                     })
@@ -64,6 +75,10 @@ export async function searchProducts(app: FastifyInstance) {
                     select: {
                         id: true,
                         name: true,
+                        description: true,
+                        price: true,
+                        price_cost: true,
+                        created_at: true
                     },
                     take: 3, 
                 }),
@@ -75,6 +90,10 @@ export async function searchProducts(app: FastifyInstance) {
                     select: {
                         id: true,
                         name: true,
+                        description: true,
+                        price: true,
+                        price_cost: true,
+                        created_at: true
                     },
                     take: 3, 
                 }),
@@ -86,6 +105,9 @@ export async function searchProducts(app: FastifyInstance) {
                     select: {
                         id: true,
                         name: true,
+                        description: true,
+                        price: true,
+                        created_at: true
                     },
                     take: 3, 
                 })

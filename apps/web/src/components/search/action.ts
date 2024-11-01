@@ -6,11 +6,11 @@ import { SearchQueryProducts } from "http/searchs/search-products"
 
 export async function searchProdutAction(query: string) {
     const currentOrg = getCurrentOrg()
-    const products = await SearchQueryProducts({org: currentOrg!, query})
+    const items = await SearchQueryProducts({org: currentOrg!, query})
 
-    if(!products) {
-        return 'Product Not found.'
+    if(!items) {
+        return null
     }
 
-    return products
+    return items || { products: [], services: [], packages: []}
 }

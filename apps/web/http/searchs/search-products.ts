@@ -9,6 +9,26 @@ interface SearchProductsResponse {
     products: {
         id: string
         name: string
+        description: string | null
+        price: string
+        price_cost: string
+        created_at: string
+    }[]
+    services: {
+        id: string
+        name: string
+        description: string | null
+        price: string
+        price_cost: string
+        created_at: string
+    }[]
+    packages: {
+        id: string
+        name: string
+        description: string | null
+        price: string
+        price_cost: string
+        created_at: string
     }[]
 }
 
