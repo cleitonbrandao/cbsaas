@@ -16,8 +16,8 @@ interface Product {
     id: string
     name: string
     description: string | undefined
-    price: string | undefined
-    price_cost: string | undefined
+    price: number | undefined
+    price_cost: number | undefined
     created_at: string
 }
 

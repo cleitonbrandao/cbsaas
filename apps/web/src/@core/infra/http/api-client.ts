@@ -1,0 +1,28 @@
+import ky, { KyInstance } from 'ky';
+import { getCookie } from 'cookies-next';
+import { CookiesFn } from 'cookies-next/lib/types';
+import { env } from '@cbsaas/env';
+
+export const api: KyInstance = ky.create({
+    prefixUrl: env.NEXT_PUBLIC_API_URL,
+    hooks: {
+        beforeRequest: [
+            async (request) => {
+                let cookieStore: CookiesFn | undefined;
+
+                if (typeof window === 'undefined') {
+                    const { cookies: serverCookies } = await import('next/headers');
+                    cookieStore = serverCookies;
+                }
+
+                const token = getCookie('token', { cookies: cookieStore });
+
+                if (token) {
+                    request.headers.set('Authorization', `Bearer ${token}`);
+                }
+            }
+        ]
+    }
+});
+
+export type ApiClient = KyInstance;
