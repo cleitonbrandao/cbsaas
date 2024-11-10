@@ -13,6 +13,8 @@ export default async function Projects() {
     // const { products } = await getProducts(currentOrg!)
     const useCase = container.get<ListProductsUseCase>(Registry.ListProductsUseCase)
     const products = await useCase.execute(org!)
+
+    console.log(products)
     return (
         <div className="space-y-4">
 
@@ -30,7 +32,7 @@ export default async function Projects() {
             </div>
 
             {permissions?.can('get', 'Project') ? (
-                <ProductList currentOrg={org} products={products}/>
+                <ProductList currentOrg={org} productsProps={products}/>
             ) : (
                 <p className="text-sm text-muted-foreground">You are not allowed to see organization projects</p>
             )}

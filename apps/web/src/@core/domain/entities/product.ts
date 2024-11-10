@@ -25,7 +25,7 @@ export class Product {
 
     
     public get description() : string {
-        return this.description
+        return this.props.description
     }
 
     

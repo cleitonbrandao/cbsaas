@@ -62,18 +62,9 @@ async function seed() {
             members: {
                 createMany: {
                     data: [
-                        {
-                            userId: user.id,
-                            role: 'ADMIN',
-                        },
-                        {
-                            userId: anotherUser.id,
-                            role: 'MEMBER',
-                        },
-                        {
-                            userId:anotherUser2.id,
-                            role: 'MEMBER',
-                        },
+                        { userId: user.id, role: 'ADMIN' },
+                        { userId: anotherUser.id, role: 'MEMBER' },
+                        { userId: anotherUser2.id, role: 'MEMBER' },
                     ]
                 }
             }
@@ -106,18 +97,9 @@ async function seed() {
             members: {
                 createMany: {
                     data: [
-                        {
-                            userId: user.id,
-                            role: 'MEMBER'
-                        },
-                        {
-                            userId: anotherUser.id,
-                            role: 'ADMIN'
-                        },
-                        {
-                            userId: anotherUser2.id,
-                            role: 'MEMBER'
-                        }
+                        { userId: user.id, role: 'ADMIN' },
+                        { userId: anotherUser.id, role: 'MEMBER' },
+                        { userId: anotherUser2.id, role: 'MEMBER' },
                     ]
                 }
             }
@@ -150,18 +132,9 @@ async function seed() {
             members: {
                 createMany: {
                     data: [
-                        {
-                            userId: user.id,
-                            role: 'BILLING'
-                        },
-                        {
-                            userId: anotherUser.id,
-                            role: 'ADMIN'
-                        },
-                        {
-                            userId: anotherUser2.id,
-                            role: 'MEMBER'
-                        }
+                        { userId: user.id, role: 'ADMIN' },
+                        { userId: anotherUser.id, role: 'MEMBER' },
+                        { userId: anotherUser2.id, role: 'MEMBER' },
                     ]
                 }
             }

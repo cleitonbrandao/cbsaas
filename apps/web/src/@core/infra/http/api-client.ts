@@ -16,7 +16,6 @@ export const api: KyInstance = ky.create({
                 }
 
                 const token = getCookie('token', { cookies: cookieStore });
-
                 if (token) {
                     request.headers.set('Authorization', `Bearer ${token}`);
                 }

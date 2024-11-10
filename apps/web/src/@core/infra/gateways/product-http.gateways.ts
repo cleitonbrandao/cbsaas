@@ -7,8 +7,18 @@ export class ProductHttpGateways implements ProductGateway {
 
     async findAll(org: string): Promise<Product[]> {
         const response = await this.http.get(`organizations/${org}/products`);
-        console.log(response)
-        return response.json<Product[]>();
+        const data = await response.json<{ products: { id: string, name: string, description: string, price: number, price_cost: number, created_at: string }[] }>();
+        
+        return data.products.map(
+            product => new Product({
+                id: product.id,
+                name: product.name,
+                description: product.description,
+                price: product.price,
+                price_cost: product.price_cost,
+                created_at: product.created_at
+            })
+        );
     }
 
     async findById(org: string, id: number): Promise<Product> {

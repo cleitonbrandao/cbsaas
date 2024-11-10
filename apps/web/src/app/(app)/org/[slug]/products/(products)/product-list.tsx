@@ -9,6 +9,7 @@ import { removeProductAction } from "../create-product/actions";
 import Link from "next/link";
 import { FormEvent, useState } from "react";
 import ConfirmDeleteModal from "@/components/modal/ConfirmDeleteModal";
+import { ProductProps } from "@/@core/domain/entities/product";
 
 dayjs.extend(relativeTime)
 
@@ -23,10 +24,10 @@ interface Product {
 
 interface ProductListProps {
     currentOrg: string | null
-    products: Product[]
+    productsProps: ProductProps[]
 }
 
-export function ProductList({currentOrg, products}: ProductListProps) {
+export function ProductList({currentOrg, productsProps}: ProductListProps) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [productIdToDelete, setProductIdToDelete] = useState<string | null>(null);
 
@@ -55,7 +56,7 @@ export function ProductList({currentOrg, products}: ProductListProps) {
                 </TableRow>
             </TableHeader>
             <TableBody>
-                {products.map(product => {
+                {productsProps.map(product => {
                     return(
                         <TableRow key={product.id}>
                             <TableCell  className="font-medium">{product.name}</TableCell>
