@@ -42,6 +42,10 @@ export class Product {
     public get created_at() : string {
         return this.props.created_at
     }
+
+    public get profit() : number {
+        return this.props.price - this.props.price_cost;
+    }
     
     
     toJSON() {
