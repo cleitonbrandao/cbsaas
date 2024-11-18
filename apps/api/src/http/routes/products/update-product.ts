@@ -63,7 +63,6 @@ export async function updateProduct(app: FastifyInstance) {
             // }
 
             const {name, description, price, price_cost} = request.body
-            console.log(name, description, price, price_cost)
             await prisma.product.update({
                 where: {
                     id: id

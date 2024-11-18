@@ -12,13 +12,13 @@ interface ProductDetailPageProps {
         id: string
         name: string
         description?: string | null
-        price: string
-        price_cost: string
+        price: number
+        price_cost: number
         created_at: string 
     }
 }
 
-export default function ProductDetailPage({product} : any) {
+export default function ProductDetailPage({product}: ProductDetailPageProps) {
     return (
         <div className="px-2">
             <div className="flex flex-col">
@@ -30,7 +30,7 @@ export default function ProductDetailPage({product} : any) {
                     <TooltipProvider>
                         <Tooltip>
                             <TooltipTrigger>
-                                <Badge className="border-green-200" variant="outline">{formatCurrency(`${product.price}`)}</Badge>
+                                <Badge className="border-green-200" variant="outline">{formatCurrency(product.price)}</Badge>
                             </TooltipTrigger>
                             <TooltipContent>
                                 Price
@@ -40,7 +40,7 @@ export default function ProductDetailPage({product} : any) {
                     <TooltipProvider>
                         <Tooltip>
                             <TooltipTrigger>
-                                <Badge className="border-red-200" variant="outline">{formatCurrency(`${product.price_cost}`)}</Badge>
+                                <Badge className="border-red-200" variant="outline">{formatCurrency(product.price_cost)}</Badge>
                             </TooltipTrigger>
                             <TooltipContent>
                                 Price cost.

@@ -13,8 +13,6 @@ export default async function Projects() {
     // const { products } = await getProducts(currentOrg!)
     const useCase = container.get<ListProductsUseCase>(Registry.ListProductsUseCase)
     const products = await useCase.execute(org!)
-
-    console.log(products)
     return (
         <div className="space-y-4">
 

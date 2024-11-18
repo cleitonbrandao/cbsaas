@@ -29,7 +29,6 @@ export function PackageForm({
 
     const [{success, message, errors}, handleSubmit, isPending] = useFormState(formAction)
     const { selectedItems } = useSelectedItems();
-    console.log(selectedItems)
     return (
         <form onSubmit={handleSubmit} className="space-y-4">
             {success === false && message && (

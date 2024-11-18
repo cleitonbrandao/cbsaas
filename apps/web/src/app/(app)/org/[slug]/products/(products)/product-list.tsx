@@ -10,6 +10,7 @@ import Link from "next/link";
 import { FormEvent, useState } from "react";
 import ConfirmDeleteModal from "@/components/modal/ConfirmDeleteModal";
 import { ProductProps } from "@/@core/domain/entities/product";
+import { formatCurrency } from "@/utils/formatCurrency";
 
 dayjs.extend(relativeTime)
 
@@ -60,9 +61,9 @@ export function ProductList({currentOrg, productsProps}: ProductListProps) {
                     return(
                         <TableRow key={product.id}>
                             <TableCell  className="font-medium">{product.name}</TableCell>
-                            <TableCell className="text-muted-foreground text-sm line-clamp-1" >{product.description}</TableCell>
-                            <TableCell >{(Number(product.price)).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})}</TableCell>
-                            <TableCell >{(Number(product.price_cost)).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})}</TableCell>
+                            <TableCell className="text-muted-foreground text-sm line-clamp-1" >{product.description && product.description.trim() !== "" ? product.description : "No description."}</TableCell>
+                            <TableCell >{formatCurrency(product.price)}</TableCell>
+                            <TableCell >{formatCurrency(product.price_cost)}</TableCell>
                             <TableCell className="flex flex-row gap-2">
                                 <Button size="xs" variant="outline" asChild>
                                     <Link href={`/org/${currentOrg}/products/${product.id}`}>

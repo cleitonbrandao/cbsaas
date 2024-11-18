@@ -1,3 +1,5 @@
+import { GetProductUseCase } from "@/@core/application/product/get-product-use-case";
+import { container, Registry } from "@/@core/infra/container-registry";
 import { ProductForm } from "@/app/(app)/org/[slug]/products/create-product/product-form";
 import { ability } from "@/auth/auth";
 import { GetProduct } from "http/get-product";
@@ -14,8 +16,9 @@ export default async function UpdatingProductPage({ params }: UpdatingProductPag
     if (permissions?.cannot('create', 'Project')) {
         redirect('/');
     }
-
-    const {product} = await GetProduct({org: slug, productId});
+    const useCase = container.get<GetProductUseCase>(Registry.GetProductUseCase)
+    const product = await useCase.execute(slug!, productId)
+    // const {product} = await GetProduct({org: slug, productId});
     return (
         <div className="space-y-4">
             <h1 className="text-2xl font-bold">Edit Product</h1>

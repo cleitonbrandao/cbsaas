@@ -12,10 +12,11 @@ import { Button } from "@/components/ui/button";
 import { useParams } from "next/navigation";
 import { queryClient } from "@/lib/react-query";
 import { Monetary } from "@/components/Inputs/InputMonetary/Monetary";
+import { ProductProps } from "@/@core/domain/entities/product";
 
 interface ProductFormProps {
     isUpdating?: boolean
-    initialData?: ProductSchema
+    initialData?: ProductProps
 }
 
 export function ProductForm({
@@ -65,7 +66,7 @@ export function ProductForm({
 
             <div className="space-y-1">
                 <Label htmlFor="description">Description</Label>
-                <Textarea name="description" id="description" defaultValue={initialData?.description ?? "No description."}/>
+                <Textarea name="description" id="description" defaultValue={initialData?.description}/>
 
                 {errors?.description && (
                     <p className="text-xs font-medium text-red-500 dark:text-red-400">
