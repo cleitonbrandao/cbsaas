@@ -2,7 +2,7 @@ import { Container } from "inversify";
 import { api } from './http/api-client';
 import { ProductHttpGateways } from "./gateways/product-http.gateways";
 import { ListProductsUseCase } from "../application/product/list-products-use-case";
-import { ProductGateway } from "../domain/gateways/product.gateways";
+import { ProductGateway } from "../domain/repository/product.repository";
 import { GetProductUseCase } from '../application/product/get-product-use-case';
 
 export const Registry = {

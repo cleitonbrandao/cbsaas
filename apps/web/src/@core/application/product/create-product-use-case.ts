@@ -1,9 +1,9 @@
-import { ProductGateway } from '@/@core/domain/gateways/product.gateways';
+import { ProductRepository } from '@/@core/domain/repository/product.repository';
 
 
 
 export class CreateProductUseCase {
-    constructor(private productGateway: ProductGateway) {}
+    constructor(private productGateway: ProductRepository) {}
 
     async execute(org: string, product: any): Promise<void> {
         await this.productGateway.createdByProduct(org!, {product})

@@ -1,5 +1,5 @@
 import { ProductProps } from '@/@core/domain/entities/product';
-import { ProductGateway } from '@/@core/domain/gateways/product.gateways';
+import { ProductGateway } from '@/@core/domain/repository/product.repository';
 
 export class ListProductsUseCase {
     constructor(private productGateway: ProductGateway) {}

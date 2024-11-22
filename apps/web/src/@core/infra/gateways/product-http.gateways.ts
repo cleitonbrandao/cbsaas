@@ -1,9 +1,9 @@
 import { Product } from "@/@core/domain/entities/product";
-import { ProductGateway } from "@/@core/domain/gateways/product.gateways";
+import { ProductRepository } from "@/@core/domain/repository/product.repository";
 import { api, ApiClient } from '@/@core/infra/http/api-client';
 import { string } from 'zod';
 
-export class ProductHttpGateways implements ProductGateway {
+export class ProductHttpGateways implements ProductRepository {
     constructor(private http: ApiClient = api) {}
 
     async createdByProduct(org: string, productData : {name: string, description: string, price: number, price_cost: number}): Promise<void> {
