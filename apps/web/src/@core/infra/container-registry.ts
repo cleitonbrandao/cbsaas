@@ -2,12 +2,12 @@ import { Container } from "inversify";
 import { api } from './http/api-client';
 import { ProductHttpGateways } from "./gateways/product-http.gateways";
 import { ListProductsUseCase } from "../application/product/list-products-use-case";
-import { ProductGateway } from "../domain/repository/product.repository";
+import { ProductRepository } from "../domain/repository/product.repository";
 import { GetProductUseCase } from '../application/product/get-product-use-case';
 
 export const Registry = {
     KyAdapter: Symbol.for("KyAdapter"),
-    ProductGateway: Symbol.for("ProductGateway"),
+    ProductGateway: Symbol.for("ProductRepository"),
     ListProductsUseCase: Symbol.for("ListProductsUseCase"),
     GetProductUseCase: Symbol.for("GetProductUseCase")
 }
@@ -18,7 +18,7 @@ export const container = new Container();
 container.bind(Registry.KyAdapter).toConstantValue(api);
 
 // GATEWAYS
-container.bind<ProductGateway>(Registry.ProductGateway).to(ProductHttpGateways);
+container.bind<ProductRepository>(Registry.ProductGateway).to(ProductHttpGateways);
 
 // USECASES
 container.bind(Registry.ListProductsUseCase).toDynamicValue((context) => {
