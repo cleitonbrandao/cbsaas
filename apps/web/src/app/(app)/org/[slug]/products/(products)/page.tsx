@@ -4,11 +4,15 @@ import { Plus } from "lucide-react"
 import Link from "next/link"
 import { ProductList } from "./product-list"
 import { getProducts } from "http/get-products"
+import { container, Registry } from "@/@core/infra/container-registry"
+import { ListProductsUseCase } from "@/@core/application/product/list-products-use-case"
 
 export default async function Projects() {
-    const currentOrg = getCurrentOrg()
+    const org = getCurrentOrg()
     const permissions = await ability()
-    const { products } = await getProducts(currentOrg!)
+    // const { products } = await getProducts(currentOrg!)
+    const useCase = container.get<ListProductsUseCase>(Registry.ListProductsUseCase)
+    const products = await useCase.execute(org!)
     return (
         <div className="space-y-4">
 
@@ -17,7 +21,7 @@ export default async function Projects() {
 
                 {permissions?.can('create', 'Project') && (
                     <Button size="sm" asChild>
-                        <Link href={`/org/${currentOrg}/products/create-product`}>
+                        <Link href={`/org/${org}/products/create-product`}>
                             <Plus className="size-4 mr-2"/>
                             Create product
                         </Link>
@@ -26,7 +30,7 @@ export default async function Projects() {
             </div>
 
             {permissions?.can('get', 'Project') ? (
-                <ProductList currentOrg={currentOrg} products={products}/>
+                <ProductList currentOrg={org} productsProps={products}/>
             ) : (
                 <p className="text-sm text-muted-foreground">You are not allowed to see organization projects</p>
             )}

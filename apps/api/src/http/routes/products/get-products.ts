@@ -27,7 +27,8 @@ export async function getProducts(app: FastifyInstance) {
                                 name: z.string(),
                                 description: z.string().nullable(),
                                 price: z.number().nullable(),
-                                price_cost: z.number().nullable()
+                                price_cost: z.number().nullable(),
+                                created_at: z.date()
                             })
                         )
                     })
@@ -38,7 +39,6 @@ export async function getProducts(app: FastifyInstance) {
             const {slug} = request.params
             const userId = await request.getCurrentUserId()
             const {organization, membership} = await request.getUserMembership(slug)
-
             // const {cannot} = getUserPermissions(userId, membership.role)
 
             // if(cannot('get', 'Product')){

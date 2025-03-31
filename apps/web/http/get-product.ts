@@ -8,11 +8,11 @@ interface GetProductRequest {
 
 interface GetProductResponse {
     product: {
-        id: string
         name: string
-        description: string | undefined
-        price: string | undefined
-        price_cost: string | undefined
+        id: string
+        description: string | null
+        price: string
+        price_cost: string
         created_at: string
     }
 }

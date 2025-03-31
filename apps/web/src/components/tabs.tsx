@@ -1,6 +1,7 @@
 import { Button } from "./ui/button";
 import { ability, getCurrentOrg } from "@/auth/auth";
 import { NavLink } from "./nav-link";
+import { ProductSwhtcher } from "./product-switcher";
 
 export async function Tabs() {
     const currentOrg = getCurrentOrg()
@@ -39,15 +40,8 @@ export async function Tabs() {
                     </NavLink>
                 </Button>
             )}
-            
-            {/* {(canUpdateOrganization || canGetBilling) && ( */}
-                <Button asChild variant="ghost" size="sm" 
-                    className="text-muted-foreground data-[current=true]:text-foreground border border-transparent data-[current=true]:border-input">
-                    <NavLink href={`/org/${currentOrg}/products`}>
-                        Products
-                    </NavLink>
-                </Button>
-            {/* )} */}
+
+            <ProductSwhtcher currentOrgSlug={currentOrg!}/>
             </nav>
         </div>
     )

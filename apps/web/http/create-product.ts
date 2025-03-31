@@ -3,7 +3,7 @@ import { api } from "./api-client";
 interface CreateProductRequest {
     org: string
     name: string
-    description?: string
+    description?: string | null
     price?: string
     price_cost?: string
 }

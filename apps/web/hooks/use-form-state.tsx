@@ -1,9 +1,9 @@
-import { useState, useTransition, type FormEvent } from "react"
-import { requestFormReset } from 'react-dom'
+import { useState, useTransition, type FormEvent } from "react";
+
 interface FormState {
-    success: boolean
-    message: string | null
-    errors: Record<string, string[]> | null
+    success: boolean;
+    message: string | null;
+    errors: Record<string, string[]> | null;
 }
 
 export function useFormState(
@@ -11,30 +11,31 @@ export function useFormState(
     onSuccess?: () => Promise<void> | void,
     initialState?: FormState
 ) {
-    const [ isPending, startTransition ]  = useTransition()
+    const [isPending, startTransition] = useTransition();
 
-    const [ formState, setFormState ] = useState(initialState ?? {
+    const [formState, setFormState] = useState(initialState ?? {
         success: false,
         message: null,
-        errors: null
-    })
+        errors: null,
+    });
 
-    async function handelAction(event: FormEvent<HTMLFormElement>) {
-        event.preventDefault()
+    async function handleAction(event: FormEvent<HTMLFormElement>) {
+        event.preventDefault();
 
-        const form = event.currentTarget
-        const data = new FormData(form)
+        const form = event.currentTarget;
+        const data = new FormData(form);
         startTransition(async () => {
-            const state = await action(data)
+            const state = await action(data);
 
-            if(state.success === true && onSuccess) {
-                await onSuccess()
+            if (state.success === true && onSuccess) {
+                await onSuccess();
             }
 
-            setFormState(state)
-        })
+            setFormState(state);
+        });
 
-        requestFormReset(form)
+        form.reset(); // Altera aqui para resetar o formulário sem 'requestFormReset'
     }
-    return [formState, handelAction, isPending] as const
+
+    return [formState, handleAction, isPending] as const;
 }

@@ -12,10 +12,11 @@ import { Button } from "@/components/ui/button";
 import { useParams } from "next/navigation";
 import { queryClient } from "@/lib/react-query";
 import { Monetary } from "@/components/Inputs/InputMonetary/Monetary";
+import { ProductProps } from "@/@core/domain/entities/product";
 
 interface ProductFormProps {
     isUpdating?: boolean
-    initialData?: ProductSchema
+    initialData?: ProductProps
 }
 
 export function ProductForm({
@@ -26,7 +27,6 @@ export function ProductForm({
     const {slug: org} = useParams<{slug: string}>()
 
     const [{success, message, errors}, handleSubmit, isPending] = useFormState(formAction)
-
     return (
         <form onSubmit={handleSubmit} className="space-y-4">
             {success === false && message && (
@@ -49,6 +49,10 @@ export function ProductForm({
                 </Alert>
             )}
 
+            {isUpdating && initialData?.id && (
+                <input type="hidden" name="id" value={initialData.id} />
+            )}
+            
             <div className="space-y-1">
                 <Label htmlFor="name">name</Label>
                 <Input name="name" type="text" id="name" defaultValue={initialData?.name}/>
@@ -73,7 +77,7 @@ export function ProductForm({
 
             <div className="space-y-1">
                 <Label htmlFor="price">Price</Label>
-                <Monetary name="price" id="price" defaultValue={initialData?.price}/>
+                <Monetary name="price" id="price" defaultValue={initialData?.price ?? "0"}/>
 
                 {errors?.description && (
                     <p className="text-xs font-medium text-red-500 dark:text-red-400">
@@ -84,7 +88,7 @@ export function ProductForm({
             
             <div className="space-y-1">
                 <Label htmlFor="price_cost">Price cost</Label>
-                <Monetary name="price_cost" id="price_cost" defaultValue={initialData?.price_cost}/>
+                <Monetary name="price_cost" id="price_cost" defaultValue={initialData?.price_cost ?? "0"}/>
 
                 {errors?.description && (
                     <p className="text-xs font-medium text-red-500 dark:text-red-400">
